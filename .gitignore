@@ -1,0 +1,21 @@
+# sesi & rahasia — JANGAN PERNAH di-commit
+state.json
+session.json
+
+# antrean & jejak lokal (dibuat saat jalan)
+comments.json
+retry_queue.json
+replied_urls.json
+posted_history.jsonl
+auto_log.json
+daemon.log
+.auto_comment.lock
+
+# screenshot verifikasi
+shots/
+
+# python
+__pycache__/
+*.pyc
+venv/
+.env
