@@ -9,9 +9,10 @@ semua jalan lokal di VPS/PC sendiri.
 |---|---|---|
 | [`autopost/`](autopost/) | Posting ke **akun sendiri**: promo Blooply (Threads/X/FB), muse.ai referral, chain thread, carousel media | Python + browser |
 | [`reply-bot/`](reply-bot/) | **Bot reply**: balas postingan orang lain dengan komentar relevan + promo halus, plus pipeline scrape/refill antrean | Python + browser (+ opsional penjadwal) |
+| [`api-experiment/`](api-experiment/) | **API unofficial tanpa browser**: post/reply/chain/delete ke Threads pakai HTTP murni (GraphQL + REST internal), tanpa Chromium | Python + cookies session |
 | [`docs/`](docs/) | Dokumentasi arsitektur, setup per-mesin, integrasi penjadwal (Hermes), troubleshooting | — |
 
-## Kenapa dua folder?
+## Kenapa dipisah per folder?
 
 - **`autopost/`** — pola kerjanya *one-shot*: script dipanggil (manual atau
   cron), post, selesai. Tidak ada state antrean. Contoh pemakaian: cron
@@ -20,6 +21,11 @@ semua jalan lokal di VPS/PC sendiri.
   daemon yang posting terus, dan pipeline refill yang terus mencari post baru
   untuk dibalas. Butuh "otak" untuk menulis komentar (agent LLM atau script
   sendiri — lihat [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)).
+- **`api-experiment/`** — eksperimen terverifikasi: Threads bisa dipost tanpa
+  Chromium, lewat API internal web mereka (`/api/graphql` +
+  `/api/v1/media/configure_text_only_post/`) dengan `curl_cffi` (TLS
+  impersonate Chrome). Lebih ringan dari browser, tapi endpoint internal bisa
+  berubah sewaktu-waktu — lihat [`api-experiment/README.md`](api-experiment/README.md).
 
 ## Mulai cepat
 
@@ -56,6 +62,7 @@ python3 -m venv venv && ./venv/bin/pip install cloakbrowser==0.5.11 playwright==
 | [`docs/PORTING.md`](docs/PORTING.md) | Pindah ke agent/mesin lain tanpa masalah (checklist portabilitas) |
 | [`autopost/README.md`](autopost/README.md) | Detail script autopost + gotcha chain/media |
 | [`reply-bot/README.md`](reply-bot/README.md) | Detail bot reply + pipeline refill |
+| [`api-experiment/README.md`](api-experiment/README.md) | Eksperimen API unofficial tanpa browser: hasil, temuan, cara capture ulang |
 | [`reply-bot/WATCHDOG.md`](reply-bot/WATCHDOG.md) | Playbook watchdog (yang dijalankan agent saat ada alarm) |
 
 ## Disclaimer
