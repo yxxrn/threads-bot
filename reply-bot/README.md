@@ -17,10 +17,30 @@ scrape ──▶ found_posts_auto_*.json ──▶ build_pool.py ──▶ pool_
                               merge_comments.py ──▶ comments.json
                                                         │
                                     poster_daemon.py ◀──┘
-                                    (posting terus, jeda 45-75s)
+                                    (posting terus, jeda 110-135s)
 ```
 
 Detail lengkap: [`../docs/ARCHITECTURE.md`](../docs/ARCHITECTURE.md).
+
+## Mengatur kecepatan posting (rate)
+
+Rate ditentukan `GAP_MIN, GAP_MAX` di `auto_comment.py` (baris ~36). Jeda
+adalah waktu tunggu **antar** post; durasi posting sendiri ~85-100 detik.
+
+```
+rate (post/jam) ≈ 3600 / (gap_rata-rata + durasi_post)
+```
+
+| Target rate | GAP_MIN, GAP_MAX | Catatan |
+|---|---|---|
+| ~26/jam (lama) | 45, 75 | agresif — dipakai sampai 2026-10-13 |
+| **~16-19/jam (sekarang)** | **110, 135** | target 15-20/jam |
+| ~12-13/jam | 170, 210 | kalau perlu lebih santai |
+
+Setelah ubah `GAP_MIN/GAP_MAX`, **restart daemon** supaya nilai baru dipakai:
+`systemctl --user restart threads-poster-daemon-3.service` (unit transient
+dibuat oleh sistem penjadwal; kalau tidak ada, jalankan ulang
+`poster_daemon.py` sebagai background process).
 
 ## File inti
 

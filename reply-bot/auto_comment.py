@@ -33,7 +33,7 @@ PHOTO = BOT / "promo.jpg"
 SHOTS = BOT / "shots"
 SHOTS.mkdir(exist_ok=True)
 
-GAP_MIN, GAP_MAX = 45.0, 75.0    # 0.75-1.25 min gap -> ~2.5-2.8 min per reply cycle (target >=20/jam)
+GAP_MIN, GAP_MAX = 110.0, 135.0  # + ~85s post -> ~16-19/jam, ekstrem tetap <20 (target 15-20/jam, diatur 2026-10-13)
 MAX_RETRIES = 2                  # attempts per URL via retry queue
 MAX_PER_RUN = 4                  # replies per run (keeps one run ~12 min)
 SESSION_FILE = BOT / "session.json"  # 24h window; bot stops when elapsed
