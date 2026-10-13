@@ -1,5 +1,5 @@
 Kamu menjalankan siklus REFILL CEPAT untuk Threads reply bot. Daemon poster
-jalan terpisah (konsumsi ~22 post/jam) — tugasmu: pastikan antrian TIDAK
+jalan terpisah (konsumsi ~17 post/jam) — tugasmu: pastikan antrian TIDAK
 PERNAH KOSONG, dominasi post ID (target >=60% ID).
 
 LANGKAH PERSIS (folder /path/ke/reply-bot, python: ./venv/bin/python):
@@ -25,6 +25,22 @@ LANGKAH PERSIS (folder /path/ke/reply-bot, python: ./venv/bin/python):
    - Natural manusia, tanpa em-dash. Variasikan promo (cek used_promos.txt).
    - Contoh post 'lagi nyari editor video': kalimat 1 'lagi cari editor ya?
      semoga dapet yang cocok' + kalimat 2 promo halus.
+
+   ATURAN ELIGIBILITY (KRITIS - baca sebelum menulis ke skip_urls.txt):
+   - POST HIRING / MENCARI EDITOR = TARGET UTAMA. JANGAN PERNAH di-skip.
+     Contoh: 'cari video editor', 'looking for video editor', 'butuh konten
+     kreator', 'nyari editor', 'hiring videographer', 'MENCARI: VIDEO EDITOR',
+     'need video editor', 'video editor wanted'. Ini justru audiens paling pas
+     untuk promo Blooply (lihat contoh di atas). JANGAN tambahkan ke skip_urls.txt.
+   - Post yang JUAL jasa edit sendiri TIDAK eligible (boleh skip): 'open jasa
+     edit', pricelist, 'fee by DM' untuk menawarkan jasa. Pembeda: hiring
+     MENCARI orang untuk mengerjakan video; jasa MENAWARKAN jasa sendiri.
+   - Juga TIDAK eligible: politik, flame war/ragebait ID-MY, duka/kematian,
+     romance/marriage spam, income/crypto/stock bait, hiring non-editor (sales,
+     web dev, B2B, live host), non-ID/EN (Filipino, Tamil, Malay), religious spam.
+   - SEBELUM menambah URL apa pun ke skip_urls.txt, cek dulu: apakah post ini
+     'mencari editor / konten kreator / videografer'? Kalau ya: JANGAN SKIP,
+     justru WAJIB dibuatkan komentar.
 
 4) `./venv/bin/python merge_comments.py`
 
