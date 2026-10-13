@@ -16,6 +16,37 @@ impersonate Chrome) + cookies dari session yang sudah ada.
 | Chain (badge n/N) | part 1 post + part 2..n self-reply berantai | ✅ badge 1/3..3/3 |
 | Delete | GraphQL `useBarcelonaDeletePostWWWMutation` | ✅ `did_delete: true` |
 
+## Perbandingan resource: API vs browser (diukur 2026-10-13)
+
+Diukur dengan polling `/proc` setiap 0.25 dtk (peak = jumlah RSS seluruh
+process tree) di VPS 2 vCPU. Semua test di akun kedua @clovebliz.
+
+| Metrik | Browser (`post.py`) | API (`api_client.py`) | Selisih |
+|---|---|---|---|
+| **RAM peak — post 1 teks** | 1.452 MB | **37 MB** | ~39x lebih ringan |
+| **RAM peak — chain 3 part** | 1.469 MB | **37 MB** | ~40x lebih ringan |
+| **Proses** | 11 (Chromium + zygote + renderer) | **1** (Python) | 11x lebih sedikit |
+| **Waktu — post 1 teks** | 27,7 dtk | **4,1 dtk** | ~7x lebih cepat |
+| **Waktu — chain 3 part** | 55,6 dtk | **20,5 dtk** | ~2,7x lebih cepat |
+| **CPU — post 1 teks** | 6,0 dtk | **0,2 dtk** | ~30x lebih ringan |
+| **CPU — chain 3 part** | 7,9 dtk | **0,2 dtk** | ~40x lebih ringan |
+| **Trafik — post 1 teks** | RX 12.125 KB / TX 857 KB | **RX 153 KB / TX 33 KB** | ~79x lebih hemat |
+| **Disk** | 658 MB (`.pw-browsers`) | **38 MB** (curl_cffi) | ~17x lebih kecil |
+
+**Kasus daemon (persistent browser) — paling dramatis:** daemon reply-bot
+(`poster_daemon.py`) memakai **2.368 MB RAM / 11 proses terus-menerus**
+selama hidupnya (Chromium tetap jalan). Versi API hanya butuh **37 MB per
+invokasi** — dan karena tidak ada browser yang standby, RAM kembali ke nol
+setelah selesai. Di VPS 8 GB, ini perbedaan antara 30% RAM terpakai permanen
+vs ~0,5%.
+
+**Kapan pakai yang mana:**
+- **API** — volume tinggi (scrape feed, reply massal, chain), VPS RAM kecil,
+  atau kuota trafik ketat. Jauh lebih ringan + cepat.
+- **Browser** — posting penting jangka panjang (API internal bisa berubah),
+  upload media/carousel (belum diimplementasi di api_client), atau kalau
+  session sering diminta verifikasi ulang oleh Meta.
+
 ## Cara kerja
 
 1. **Cookies** dari `storage_state*.json` (sessionid, csrftoken, ds_user_id,
