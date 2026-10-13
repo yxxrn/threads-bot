@@ -1,21 +1,53 @@
-# sesi & rahasia — JANGAN PERNAH di-commit
+# ===== Session / kredensial (JANGAN PERNAH COMMIT) =====
+storage_state*.json
 state.json
-session.json
+cookies*.txt
+.env
+*.session
 
-# antrean & jejak lokal (dibuat saat jalan)
+# ===== State runtime bot =====
+session.json
 comments.json
+comments_new.json
 retry_queue.json
 replied_urls.json
 posted_history.jsonl
 auto_log.json
+pool_ready.json
+candidates.json
 daemon.log
-.auto_comment.lock
+cron.log
+scraper.log
+scraper_state.json
+found_posts*.json
+post_texts*.json
+refill_check.json
+skip_urls.txt
+used_promos.txt
+*.lock
 
-# screenshot verifikasi
+# ===== State gating autopost =====
+.promo_state.json
+.x_muse_state.json
+.p2_muse_state.json
+.fb_promo_state.json
+
+# ===== Screenshot debug =====
 shots/
+*.png
+*.jpg
+*.mp4
+!reply-bot/promo.jpg
+!media/**
+!autopost/media/**
 
-# python
+# ===== Python =====
+.venv/
+venv/
 __pycache__/
 *.pyc
-venv/
-.env
+.pytest_cache/
+
+# ===== Browser =====
+.pw-browsers/
+browser-data/
