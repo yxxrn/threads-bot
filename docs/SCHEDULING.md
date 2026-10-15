@@ -117,6 +117,35 @@ cd /path/ke/autopost
 exec .venv/bin/python promo_auto.py
 ```
 
+### 1e. Batch one-shot (contoh: run 24 jam akun kedua)
+
+Pola untuk menjalankan rentang posting terjadwal penuh (mis. warm-up akun
+kedua: muse + repo diselang-seling selama 24 jam), lalu otomatis kembali ke
+mode berulang. Contoh nyata: batch `p3j` @clovebliz, 15-16 Okt 2026 = 14 post
+dalam 24 jam (8 muse ID/EN selang-seling + 6 repo ID), gap 95-109 menit.
+
+Langkah:
+
+1. **Pause job berulang** supaya tidak dobel-post:
+   `hermes cron pause <ID-job-muse>`
+2. **Buat wrapper per post** di `~/.hermes/scripts/` (pola `p3j-*.sh`):
+   - muse: `exec .venv/bin/python p2_muse_auto.py --force` — hook + bahasa
+     diambil dari `.p2_muse_state.json`, jadi selang-seling ID/EN lanjut
+     otomatis; `--force` = abaikan gating (jadwal sudah dipegang cron).
+   - repo: `exec .venv/bin/python p3_post.py --file p3j_repo_N.txt`
+3. **Jadwalkan one-shot per post** (jam UTC; WIB = UTC+7):
+   ```bash
+   hermes cron create "2026-10-15T13:24:00Z" --name p3j-01-muse-id17 \
+     --script p3j-muse.sh --no-agent --deliver telegram:CHAT_ID
+   ```
+   Gap antar post 95-109 menit (selalu dalam 90-120). Muse/repo diselang-
+   seling: repo tiap ~3 jam menyelip di antara post muse.
+4. **Job terakhir = penutup**: script kecil yang `hermes cron resume
+   <ID-job-muse>` + kirim ringkasan selesai.
+
+Jumlah post = rentang ÷ gap rata-rata; 24 jam ÷ ~105 menit ≈ 14 post.
+Teks batch disimpan di working dir (`p3j_repo_1.txt` … `p3j_repo_6.txt`).
+
 ### Catatan Hermes
 
 - `--no-agent` = script dijalankan langsung, stdout dikirim apa adanya.
