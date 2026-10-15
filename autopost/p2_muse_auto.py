@@ -47,13 +47,13 @@ BODY1_ID = (
     "1. Download Pawxy di Play Store\n"
     "2. Connect ke VPN bawaan Pawxy, pilih region US\n"
     "3. Siapkan akun IG buat konfirmasi umur. Kalau gak punya IG, bisa pakai kartu debit Visa/MC (Jago, blu, bebas)\n"
-    "4. Login ke muse.ai, masukin kode FB6X3E, dan 1 Milyar token gratis langsung masuk"
+    "4. Login ke muse.ai, masukin kode 7O8TEY, dan 1 Milyar token gratis langsung masuk"
 )
 
 PART2_ID = (
     "5. Selain token, kalian juga dapat VPS gratis bawaan muse. Speknya CPU 2 vCPU AMD EPYC 9D25, RAM 7,7 GB\n"
     "6. Tokennya berlaku selamanya. Selama akun kalian hidup, VPS-nya ikut hidup terus, tanpa biaya bulanan\n\n"
-    "Kodenya FB6X3E, masukin pas daftar biar tokennya langsung masuk akun kalian."
+    "Kodenya 7O8TEY, masukin pas daftar biar tokennya langsung masuk akun kalian."
 )
 
 BODY1_EN = (
@@ -61,13 +61,13 @@ BODY1_EN = (
     "1. Download Pawxy from the Play Store\n"
     "2. Connect to the VPN inside Pawxy and pick the US region\n"
     "3. Have an IG account ready for age verification. If you don't have one, a Visa/MC debit card works too (Jago, blu, any card)\n"
-    "4. Log in to muse.ai, enter code FB6X3E, and 1 Billion free tokens land in your account"
+    "4. Log in to muse.ai, enter code 7O8TEY, and 1 Billion free tokens land in your account"
 )
 
 PART2_EN = (
     "5. You also get a free VPS included with muse. Specs: 2 vCPU AMD EPYC 9D25, 7.7 GB RAM\n"
     "6. The free tokens never expire. As long as your account stays active, the VPS stays up too, with no monthly fees\n\n"
-    "The code's FB6X3E, enter it when you sign up so the tokens go straight to your account."
+    "The code's 7O8TEY, enter it when you sign up so the tokens go straight to your account."
 )
 
 MEDIA_PARTS = [

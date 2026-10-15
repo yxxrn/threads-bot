@@ -4,7 +4,7 @@
 Cron tick tiap 30 menit; script gating sendiri (stdout kosong = silent,
 tidak kirim pesan ke chat). Opener ganti tiap post, EN/ID selang-seling
 mulai EN. 1 tweet (X tanpa chain), weighted <=280 (domain dihitung URL).
-Media: 1 foto (sheet kode FB6X3E). State: .x_muse_state.json {i, last_ts,
+Media: 1 foto (sheet kode 7O8TEY). State: .x_muse_state.json {i, last_ts,
 gap_s}; i%2==0 = EN. Manual paksa post: x_muse_auto.py --force
 """
 import argparse
@@ -39,7 +39,7 @@ STEPS_EN = (
     "1) Pawxy from the Play Store\n"
     "2) Connect via US VPN\n"
     "3) Have an IG account ready (or a Visa/MC card)\n"
-    "4) Sign in at muse.ai, enter code FB6X3E"
+    "4) Sign in at muse.ai, enter code 7O8TEY"
 )
 
 TAIL_EN = "1B free tokens + a free VPS, valid while your account is active."
@@ -48,7 +48,7 @@ STEPS_ID = (
     "1) Pawxy di Play Store\n"
     "2) Connect VPN region US\n"
     "3) Siapkan akun IG (atau kartu debit Visa/MC)\n"
-    "4) Login muse.ai, masukin kode FB6X3E"
+    "4) Login muse.ai, masukin kode 7O8TEY"
 )
 
 TAIL_ID = "1 Milyar token gratis + VPS gratis, selama akun kamu aktif."

@@ -1,0 +1,12 @@
+Muse.ai is trending right now, but sign-ups are still locked behind a waiting list. There's a shortcut to skip the queue and claim 1 Billion free tokens. Here's how:
+
+1. Download Pawxy from the Play Store
+2. Connect to the VPN inside Pawxy and pick the US region
+3. Have an IG account ready for age verification. If you don't have one, a Visa/MC debit card works too (Jago, blu, any card)
+4. Log in to muse.ai, enter code 7O8TEY, and 1 Billion free tokens land in your account
+
+---
+5. You also get a free VPS included with muse. Specs: 2 vCPU AMD EPYC 9D25, 7.7 GB RAM
+6. The free tokens never expire. As long as your account stays active, the VPS stays up too, with no monthly fees
+
+The code's 7O8TEY, enter it when you sign up so the tokens go straight to your account.
