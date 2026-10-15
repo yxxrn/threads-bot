@@ -419,14 +419,30 @@ def post_parts(
         def _m(i: int) -> Path | None:
             return media[i] if i < len(media) else None
 
-        _fill_slot(page, 0, parts[0])
-        if _m(0):
-            _attach_media(page, _m(0), 0)
-        for i, part in enumerate(parts[1:], start=1):
-            _add_slot(page)
-            _fill_slot(page, i, part)
-            if _m(i):
-                _attach_media(page, _m(i), i)
+        # NOTE: attach media BEFORE typing when a part contains a URL.
+        # Threads renders a big link-preview card the moment a link is typed,
+        # which pushes/overlays the per-row toolbar and makes the slot-1
+        # "row photo" button unfindable (attach loop times out, seen
+        # 2026-10-15 with the t.me/satudigitalbot link in part 2).
+        link_any = any(re.search(r"https?://|t\.me/|\.com/|\.ai/", p) for p in parts)
+        if link_any:
+            if _m(0):
+                _attach_media(page, _m(0), 0)
+            for i in range(1, n):
+                _add_slot(page)
+                if _m(i):
+                    _attach_media(page, _m(i), i)
+            for i, part in enumerate(parts):
+                _fill_slot(page, i, part)
+        else:
+            _fill_slot(page, 0, parts[0])
+            if _m(0):
+                _attach_media(page, _m(0), 0)
+            for i, part in enumerate(parts[1:], start=1):
+                _add_slot(page)
+                _fill_slot(page, i, part)
+                if _m(i):
+                    _attach_media(page, _m(i), i)
 
         texts = _editor_texts(page)
         if len(texts) < n or any(parts[i] not in texts[i] for i in range(n)):

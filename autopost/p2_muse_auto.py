@@ -52,7 +52,8 @@ BODY1_ID = (
 
 PART2_ID = (
     "5. Selain token, kalian juga dapat VPS gratis bawaan muse. Speknya CPU 2 vCPU AMD EPYC 9D25, RAM 7,7 GB\n"
-    "6. Tokennya berlaku selamanya. Selama akun kalian hidup, VPS-nya ikut hidup terus, tanpa biaya bulanan\n\n"
+    "6. Tokennya berlaku selamanya. Selama akun kalian hidup, VPS-nya ikut hidup terus, tanpa biaya bulanan\n"
+    "7. Bonus: 3 Milyar token tambahan bisa diklaim lewat bot Telegram Satu Digital, tinggal buka link ini: https://t.me/satudigitalbot?start=ref1323141169\n\n"
     "Kodenya 7O8TEY, masukin pas daftar biar tokennya langsung masuk akun kalian."
 )
 
@@ -66,7 +67,8 @@ BODY1_EN = (
 
 PART2_EN = (
     "5. You also get a free VPS included with muse. Specs: 2 vCPU AMD EPYC 9D25, 7.7 GB RAM\n"
-    "6. The free tokens never expire. As long as your account stays active, the VPS stays up too, with no monthly fees\n\n"
+    "6. The free tokens never expire. As long as your account stays active, the VPS stays up too, with no monthly fees\n"
+    "7. Bonus: 3 Billion extra tokens can be claimed via the Satu Digital Telegram bot, just open this link: https://t.me/satudigitalbot?start=ref1323141169\n\n"
     "The code's 7O8TEY, enter it when you sign up so the tokens go straight to your account."
 )
 

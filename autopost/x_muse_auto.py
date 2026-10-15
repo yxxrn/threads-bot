@@ -39,19 +39,21 @@ STEPS_EN = (
     "1) Pawxy from the Play Store\n"
     "2) Connect via US VPN\n"
     "3) Have an IG account ready (or a Visa/MC card)\n"
-    "4) Sign in at muse.ai, enter code 7O8TEY"
+    "4) Sign in at muse.ai, enter code 7O8TEY\n"
+    "5) Bonus 3B tokens: t.me/satudigitalbot?start=ref1323141169"
 )
 
-TAIL_EN = "1B free tokens + a free VPS, valid while your account is active."
+TAIL_EN = "1B tokens + free VPS."
 
 STEPS_ID = (
     "1) Pawxy di Play Store\n"
     "2) Connect VPN region US\n"
     "3) Siapkan akun IG (atau kartu debit Visa/MC)\n"
-    "4) Login muse.ai, masukin kode 7O8TEY"
+    "4) Login muse.ai, masukin kode 7O8TEY\n"
+    "5) Bonus 3 Milyar token: t.me/satudigitalbot?start=ref1323141169"
 )
 
-TAIL_ID = "1 Milyar token gratis + VPS gratis, selama akun kamu aktif."
+TAIL_ID = "1 Milyar token + VPS."
 
 
 def build(i: int) -> tuple[str, str, int]:
