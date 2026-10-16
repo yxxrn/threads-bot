@@ -138,9 +138,14 @@ def main() -> int:
                 "lang": lang,
                 "text": text[:1500],
                 "source": Path(f).name,
+                "age_hours": rec.get("age_hours"),
             }
 
-    items = sorted(pool.values(), key=lambda x: (x["lang"] != "id", x["author"]))
+    # newest-first per bahasa; age None (arsip lama) -> belakang.
+    # Supaya post baru selalu diprioritaskan pick_drafts walau umur
+    # scraper dinaikkan (max-age 168 jam, 2026-10-16).
+    items = sorted(pool.values(), key=lambda x: (x["lang"] != "id",
+                x.get("age_hours") is None, x.get("age_hours") or 0))
     (BOT / "pool_ready.json").write_text(json.dumps(items, ensure_ascii=False, indent=1))
     idn = sum(1 for x in items if x["lang"] == "id")
     enn = sum(1 for x in items if x["lang"] == "en")

@@ -33,7 +33,11 @@ Wrapper `reply-bot/threads_scraper.sh`:
 #!/bin/bash
 set -euo pipefail
 cd /path/ke/reply-bot
-exec ./venv/bin/python scraper_cycle.py
+# --groups 4: 4 grup keyword per siklus (naik dari 2, 2026-10-16, supply kering)
+# --max-age-hours 168: terima post s/d 7 hari (naik dari 96 jam); build_pool
+#   menyimpan age_hours dan mengurutkan pool newest-first → post baru tetap
+#   diprioritaskan, yang lama hanya jadi cadangan.
+exec ./venv/bin/python scraper_cycle.py --groups 4 --max-age-hours 168
 ```
 
 Taruh di `~/.hermes/scripts/` lalu:

@@ -85,7 +85,7 @@ antrean. Antara keduanya tidak saling memanggil — hanya berbagi file JSON.
 | `poster_daemon.py` | Loop utama: ambil antrean → post satu → jeda 45-75s → ulang. Stop otomatis saat `session.json` habis. Restart browser otomatis kalau error beruntun. |
 | `auto_comment.py` | Mesin posting: buka URL post → expand composer → ketik komentar → Post → verifikasi. Juga menyimpan state (`replied_urls.json`, `retry_queue.json`). |
 | `find_posts.py` | Scrape pencarian Threads per keyword (max umur + limit), output JSON. |
-| `scraper_cycle.py` | Rotasi grup keyword dari `scraper_keywords.json`, panggil `find_posts.py` 2 grup per siklus, tulis `found_posts_auto_<ts>_<a/b>.json`. Ada file lock anti-overlap. |
+| `scraper_cycle.py` | Rotasi grup keyword dari `scraper_keywords.json`, panggil `find_posts.py` N grup per siklus (default 2; produksi pakai 4 sejak 2026-10-16), tulis `found_posts_auto_<ts>_<a/b>.json`. Ada file lock anti-overlap. `--max-age-hours` default 96; produksi 168 (7 hari). |
 | `build_pool.py` | Gabung semua `found_posts*.json` → filter (bahasa, sudah dibalas, dedupe) → `pool_ready.json`. |
 | `pick_drafts.py` | Pilih 12 kandidat prioritas ID dari pool → `candidates.json`. Skip author yang baru dibalas (<24 jam) + `skip_urls.txt`. |
 | `merge_comments.py` | Gabung `comments_new.json` (hasil tulis komentar) → `comments.json` (antrean daemon). |
