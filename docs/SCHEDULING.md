@@ -150,6 +150,23 @@ Langkah:
 Jumlah post = rentang ÷ gap rata-rata; 24 jam ÷ ~105 menit ≈ 14 post.
 Teks batch disimpan di working dir (`p3j_repo_1.txt` … `p3j_repo_6.txt`).
 
+**Run panjang (multi-hari)** memakai pola yang sama. Contoh nyata: batch `p3k`
+@clovebliz, 17-25 Okt 2026 = 100 post (50 muse + 50 repo bergantian) selama
+~8 hari, gap 110-120 menit, penutup `p3k-101-done` resume `p2-muse`. Untuk
+ratusan job, generate loop — jangan bikin manual:
+
+```bash
+# schedule per baris: <ISO-UTC>\t<name>\t<script>
+while IFS=$'\t' read -r at name script; do
+  hermes cron create "$at" --name "$name" --script "$script" \
+    --no-agent --deliver telegram:CHAT_ID
+done < jobs.txt
+```
+
+Pool repo 50+ sebaiknya diverifikasi dulu lewat GitHub API (`gh api repos/OWNER/NAME`)
+— tolak `archived:true`, `mirror_url` terisi, atau `fork:true` — baru tulis teks
+promonya satu per satu (unik, tanpa template nyata).
+
 ### Catatan Hermes
 
 - `--no-agent` = script dijalankan langsung, stdout dikirim apa adanya.
