@@ -5,6 +5,7 @@ Rotasi varian dari variants.json. Part 1 = gambar + caption,
 Part 2 = reply text (CTA lisensi/voucher). State index di promo_state.json.
 """
 import json
+import hashlib
 import os
 import random
 import sys
@@ -49,26 +50,45 @@ def load_state() -> dict:
     return {"i": 0, "done": []}
 
 
+def validate(v: dict) -> str | None:
+    chain = v.get("chain")
+    if chain:
+        tag = f"/chain{chain}/"
+        if tag not in v["media"] or tag not in v["p2_media"]:
+            return f"media chain mismatch {v['key']} chain={chain}"
+    for fld in ("media", "p2_media"):
+        p = Path(v[fld])
+        head = p.open("rb").read(4) if p.exists() else b""
+        if not p.exists() or p.stat().st_size < 5000 or head[:3] not in (b"\xff\xd8\xff", b"\x89PN"):
+            return f"media invalid {v['key']} {fld}={p}"
+    manifest = json.loads((BASE / "media_manifest.json").read_text())
+    for fld in ("media", "p2_media"):
+        p = Path(v[fld])
+        digest = hashlib.sha256(p.read_bytes()).hexdigest()
+        approved = manifest.get(f"{v['key']}:{fld}", {}).get("sha256")
+        if not approved or approved != digest:
+            return f"media not approved {v['key']} {fld}={p.name}"
+    return None
+
+
 def main() -> int:
+    if "--check" in sys.argv:
+        st = load_state()
+        v = VARIANTS[st["i"] % len(VARIANTS)]
+        err = validate(v)
+        log(f"check {v['key']}: {err or 'OK'}")
+        return 1 if err else 0
     if not acquire():
         return 0
     try:
         st = load_state()
         idx = st["i"] % len(VARIANTS)
         v = VARIANTS[idx]
-        chain = v.get("chain")
-        if chain:
-            tag = f"/chain{chain}/"
-            if tag not in v["media"] or tag not in v["p2_media"]:
-                log(f"ERROR media chain mismatch {v['key']} chain={chain}")
-                return 1
-        for fld in ("media", "p2_media"):
-            p = Path(v[fld])
-            head = p.open("rb").read(4) if p.exists() else b""
-            if not p.exists() or p.stat().st_size < 5000 or head[:3] not in (b"\xff\xd8\xff", b"\x89PN"):
-                log(f"ERROR media invalid {v['key']} {fld}={p}")
-                return 1
-        log(f"start #{idx+1}/{len(VARIANTS)} {v['key']} chain={chain} {Path(v['media']).name}")
+        err = validate(v)
+        if err:
+            log("ERROR " + err)
+            return 1
+        log(f"start #{idx+1}/{len(VARIANTS)} {v['key']} chain={v.get('chain')} {Path(v['media']).name}")
 
         api = ThreadsAPI(STATE_FILE)
         r1 = api.post_media(v["p1"], v["media"])
