@@ -234,7 +234,7 @@ class ThreadsAPI:
             return w, h
         return None
 
-    def upload_media(self, path):
+    def upload_media(self, path, is_sidecar=0):
         """Upload one image to Threads CDN → returns upload_id (or None).
 
         Endpoint: POST /rupload_igphoto/fb_uploader_<ts>  (raw bytes body)
@@ -250,7 +250,7 @@ class ThreadsAPI:
         dims = self._img_dims(data) or (1080, 1080)
         w, h = dims
         rparams = json.dumps({
-            "is_sidecar": "0", "is_threads": "1", "media_type": 1,
+            "is_sidecar": str(is_sidecar), "is_threads": "1", "media_type": 1,
             "upload_id": upload_id,
             "upload_media_height": h, "upload_media_width": w,
         }, separators=(",", ":"))
@@ -277,6 +277,88 @@ class ThreadsAPI:
             print(r.text[:300])
             return None
         return upload_id
+
+
+    def _publish_sidecar(self, text, upload_ids, reply_to=None):
+        """Carousel publish — endpoint configure_text_post_app_sidecar."""
+        import json as _j
+        import time as _t
+        import uuid as _u
+        sess = f"{_u.uuid4().hex[:6]}:{_u.uuid4().hex[:6]}:{_u.uuid4().hex[:6]}"
+        tpi = {
+            "carousel_experience": "legacy",
+            "carousel_item_count": len(upload_ids),
+            "fallback_or_rejection_category": "none",
+            "community_flair_id": None,
+            "composer_session_id": str(_u.uuid4()),
+            "entry_point": "main_tab_bar",
+            "excluded_inline_media_ids": "[]",
+            "fediverse_composer_enabled": True,
+            "gif_media_id": None,
+            "is_genai_invocation_post": False,
+            "is_reply_approval_enabled": False,
+            "is_spoiler_media": False,
+            "link_attachment_url": None,
+            "link_preview_default_render_style": None,
+            "quoted_post_id": None,
+            "reply_control": 0,
+            "self_thread_context_id": str(_u.uuid4()),
+            "snippet_attachment": None,
+            "special_effects_enabled_str": None,
+            "tag_header": None,
+            "text_with_entities": {"entities": [], "text": text},
+        }
+        if reply_to:
+            tpi["reply_id"] = str(reply_to)
+        body = {
+            "audience": "default",
+            "caption": text,
+            "children_metadata": [{"upload_id": str(u)} for u in upload_ids],
+            "client_sidecar_id": str(int(_t.time() * 1000)),
+            "creator_geo_gating_info": '{"whitelist_country_codes":[]}',
+            "internal_features": "",
+            "is_threads": True,
+            "is_upload_type_override_allowed": "1",
+            "nav_chain": "BarcelonaHomeRoot:ig_text_feed_timeline:1:via_cold_start",
+            "should_include_permalink": True,
+            "text_post_app_info": _j.dumps(tpi, separators=(",", ":")),
+            "web_session_id": sess,
+        }
+        if reply_to:
+            body["barcelona_source_reply_id"] = str(reply_to)
+        headers = {
+            "user-agent": UA,
+            "x-ig-app-id": APP_ID,
+            "x-csrftoken": self.cookies.get("csrftoken", ""),
+            "x-instagram-ajax": "0",
+            "x-asbd-id": "359341",
+            "x-web-session-id": sess,
+            "content-type": "text/plain;charset=UTF-8",
+            "origin": "https://www.threads.com",
+            "referer": "https://www.threads.com/",
+        }
+        return self.s.post(
+            "https://www.threads.com/api/v1/media/configure_text_post_app_sidecar/",
+            data=_j.dumps(body), cookies=self.cookies, headers=headers, timeout=60)
+
+    def post_carousel(self, caption, image_paths, reply_to=None):
+        """Post 2+ images as carousel — pure HTTP, no browser."""
+        ids = []
+        for p in image_paths:
+            uid = self.upload_media(p)
+            if not uid:
+                print("[carousel] upload FAILED:", p)
+                return None
+            ids.append(uid)
+        r = self._publish_sidecar(caption, ids, reply_to=reply_to)
+        print("[carousel] status:", r.status_code)
+        if r.status_code == 200:
+            d = r.json().get("media", {})
+            print("[carousel] pk:", d.get("pk"), "| code:", d.get("code"),
+                  "| media_type:", d.get("media_type"))
+        else:
+            print(r.text[:400])
+        return r
 
     def post_media(self, caption, image_path, reply_to=None):
         """Post an image (with caption) — pure HTTP, no browser."""
