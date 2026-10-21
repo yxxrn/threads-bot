@@ -56,7 +56,13 @@ def main() -> int:
         st = load_state()
         idx = st["i"] % len(VARIANTS)
         v = VARIANTS[idx]
-        log(f"start #{idx+1}/{len(VARIANTS)} {v['key']} {Path(v['media']).name}")
+        chain = v.get("chain")
+        if chain:
+            tag = f"/chain{chain}/"
+            if tag not in v["media"] or tag not in v["p2_media"]:
+                log(f"ERROR media chain mismatch {v['key']} chain={chain}")
+                return 1
+        log(f"start #{idx+1}/{len(VARIANTS)} {v['key']} chain={chain} {Path(v['media']).name}")
 
         api = ThreadsAPI(STATE_FILE)
         r1 = api.post_media(v["p1"], v["media"])
