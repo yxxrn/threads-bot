@@ -62,6 +62,12 @@ def main() -> int:
             if tag not in v["media"] or tag not in v["p2_media"]:
                 log(f"ERROR media chain mismatch {v['key']} chain={chain}")
                 return 1
+        for fld in ("media", "p2_media"):
+            p = Path(v[fld])
+            head = p.open("rb").read(4) if p.exists() else b""
+            if not p.exists() or p.stat().st_size < 5000 or head[:3] not in (b"\xff\xd8\xff", b"\x89PN"):
+                log(f"ERROR media invalid {v['key']} {fld}={p}")
+                return 1
         log(f"start #{idx+1}/{len(VARIANTS)} {v['key']} chain={chain} {Path(v['media']).name}")
 
         api = ThreadsAPI(STATE_FILE)
