@@ -6,11 +6,16 @@ Part 2 = reply text (CTA lisensi/voucher). State index di promo_state.json.
 """
 import json
 import hashlib
+import io
 import os
 import random
+import re
 import sys
 import time
 from pathlib import Path
+
+from PIL import Image
+from curl_cffi import requests as creq
 
 sys.path.insert(0, "/home/agentuser/threads-bot-repo/api-experiment")
 from api_client import ThreadsAPI
@@ -71,6 +76,47 @@ def validate(v: dict) -> str | None:
     return None
 
 
+def _dhash(im, size: int = 16) -> int:
+    im = im.convert("L").resize((size + 1, size), Image.LANCZOS)
+    px = list(im.getdata())
+    bits = 0
+    for r in range(size):
+        for c in range(size):
+            bits = (bits << 1) | (px[r * (size + 1) + c] > px[r * (size + 1) + c + 1])
+    return bits
+
+
+def verify_post(api, code: str, path: str, tries: int = 3):
+    """True/False kalau gambar bisa dicek, None kalau halaman tak tersedia."""
+    want = _dhash(Image.open(path))
+    last = "no attempt"
+    for attempt in range(tries):
+        try:
+            h = api.s.get(f"https://www.threads.com/@blooplyy_/post/{code}",
+                          cookies=api.cookies, headers={"user-agent": "Mozilla/5.0"},
+                          timeout=30).text
+            for u in re.findall(r'https://scontent[^"\\]+\.(?:jpg|webp)[^"\\]*', h):
+                u = u.replace("\\u0026", "&").replace("\\/", "/").replace("&amp;", "&").split('"')[0]
+                if "t51.82787" not in u:
+                    continue
+                r = creq.get(u, timeout=30, impersonate="chrome",
+                             headers={"referer": "https://www.threads.com/"})
+                if r.status_code != 200:
+                    continue
+                im = Image.open(io.BytesIO(r.content))
+                if min(im.size) < 500:
+                    continue
+                dist = bin(want ^ _dhash(im)).count("1")
+                if dist <= 25:
+                    return True, f"dist={dist}"
+                return False, f"dist={dist}"
+            last = "no image on page"
+        except Exception as e:
+            last = str(e)[:80]
+        time.sleep(20)
+    return None, last
+
+
 def main() -> int:
     if "--check" in sys.argv:
         st = load_state()
@@ -115,6 +161,23 @@ def main() -> int:
             log(f"WARN part2 gagal {v['key']}: {getattr(r2,'status_code','none')}")
             return 1
         code2 = r2.json()["media"]["code"]
+        pk2 = r2.json()["media"].get("pk")
+
+        ok1, info1 = verify_post(api, code, v["media"])
+        if p2m:
+            ok2, info2 = verify_post(api, code2, p2m)
+        else:
+            ok2, info2 = True, "text"
+        log(f"verify {v['key']} part1={ok1}:{info1} part2={ok2}:{info2}")
+        if ok1 is False or ok2 is False:
+            log(f"ERROR media salah terbit {v['key']} → hapus {code}/{code2}")
+            for dead in (pk, pk2):
+                if dead:
+                    try:
+                        api.delete_post(str(dead))
+                    except Exception as e:
+                        log(f"WARN delete {dead}: {e}")
+            return 1
 
         st["i"] = idx + 1
         st.setdefault("done", []).append({"key": v["key"], "code": code, "reply": code2,
