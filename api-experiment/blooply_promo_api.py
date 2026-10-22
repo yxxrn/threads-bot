@@ -57,10 +57,11 @@ def load_state() -> dict:
 
 def validate(v: dict) -> str | None:
     chain = v.get("chain")
-    if chain:
-        tag = f"/chain{chain}/"
-        if tag not in v["media"] or tag not in v["p2_media"]:
-            return f"media chain mismatch {v['key']} chain={chain}"
+    if chain and f"/chain{chain}/" not in v["media"]:
+        return f"media part1 salah chain {v['key']} chain={chain}"
+    p2 = Path(v["p2_media"])
+    if "/chain2/" not in str(p2) or p2.name not in ("c2-library.jpg", "c2-library-detail.jpg"):
+        return f"media part2 wajib library blooply {v['key']} -> {p2.name}"
     for fld in ("media", "p2_media"):
         p = Path(v[fld])
         head = p.open("rb").read(4) if p.exists() else b""
