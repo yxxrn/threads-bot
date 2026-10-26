@@ -47,14 +47,14 @@ BODY1_ID = (
     "1. Download Pawxy di Play Store\n"
     "2. Connect ke VPN bawaan Pawxy, pilih region US\n"
     "3. Siapkan akun IG buat konfirmasi umur. Kalau gak punya IG, bisa pakai kartu debit Visa/MC (Jago, blu, bebas)\n"
-    "4. Login ke muse.ai, masukin kode KGG3P8, dan 1 Milyar token gratis langsung masuk"
+    "4. Login ke muse.ai, masukin kode DAAY4F, dan 1 Milyar token gratis langsung masuk"
 )
 
 PART2_ID = (
     "5. Selain token, kalian juga dapat VPS gratis bawaan muse. Speknya CPU 2 vCPU AMD EPYC 9D25, RAM 7,7 GB\n"
     "6. Tokennya berlaku selamanya. Selama akun kalian hidup, VPS-nya ikut hidup terus, tanpa biaya bulanan\n"
     "7. Bonus: 3 Milyar token tambahan bisa diklaim lewat bot Telegram Satu Digital, tinggal buka link ini: https://t.me/satudigitalbot?start=ref1323141169\n\n"
-    "Kodenya KGG3P8, masukin pas daftar biar tokennya langsung masuk akun kalian."
+    "Kodenya DAAY4F, masukin pas daftar biar tokennya langsung masuk akun kalian."
 )
 
 BODY1_EN = (
@@ -62,14 +62,14 @@ BODY1_EN = (
     "1. Download Pawxy from the Play Store\n"
     "2. Connect to the VPN inside Pawxy and pick the US region\n"
     "3. Have an IG account ready for age verification. If you don't have one, a Visa/MC debit card works too (Jago, blu, any card)\n"
-    "4. Log in to muse.ai, enter code KGG3P8, and 1 Billion free tokens land in your account"
+    "4. Log in to muse.ai, enter code DAAY4F, and 1 Billion free tokens land in your account"
 )
 
 PART2_EN = (
     "5. You also get a free VPS included with muse. Specs: 2 vCPU AMD EPYC 9D25, 7.7 GB RAM\n"
     "6. The free tokens never expire. As long as your account stays active, the VPS stays up too, with no monthly fees\n"
     "7. Bonus: 3 Billion extra tokens can be claimed via the Satu Digital Telegram bot, just open this link: https://t.me/satudigitalbot?start=ref1323141169\n\n"
-    "The code's KGG3P8, enter it when you sign up so the tokens go straight to your account."
+    "The code's DAAY4F, enter it when you sign up so the tokens go straight to your account."
 )
 
 MEDIA_PARTS = [
