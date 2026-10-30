@@ -1,0 +1,42 @@
+{
+ "_meta": {
+  "hermes_bin": "~/.hermes/hermes-agent/venv/bin/hermes",
+  "note": "Semua path pakai ~ supaya portabel. Pindah mesin: copy repo + state files, lalu sesuaikan file ini."
+ },
+ "reply": {
+  "role": "reply",
+  "dir": "~/threads-bot",
+  "runner": "~/threads-bot/poster_daemon.py",
+  "state": "~/threads-bot/state.json",
+  "job": "6e020e0bb0cd",
+  "schedule": "every 15m",
+  "note": "daemon poster + refill cron. Jangan dijalankan lewat post-next."
+ },
+ "blooply": {
+  "role": "promo",
+  "dir": "~/blooply_promo",
+  "runner": "~/blooply_promo/blooply_promo_api.py",
+  "python": "~/threads-playwright/.venv/bin/python",
+  "state": "~/threads-playwright/storage_state.json",
+  "queue": "~/blooply_promo/variants.json",
+  "job": "bc408d5a337a",
+  "schedule": "every 240m"
+ },
+ "clove": {
+  "role": "queue",
+  "dir": "~/clove",
+  "runner": "~/clove_runner_api.py",
+  "python": "~/threads-playwright/.venv/bin/python",
+  "state": "~/threads-playwright/storage_state_clove.json",
+  "queue": "~/clove/clove_queue.json",
+  "job": "341f892e574a",
+  "schedule": "every 15m"
+ },
+ "third": {
+  "role": "idle",
+  "dir": "~/accounts/acct_57861319688",
+  "state": "~/accounts/acct_57861319688/storage_state.json",
+  "job": null,
+  "note": "akun cadangan, belum ada tugas"
+ }
+}
