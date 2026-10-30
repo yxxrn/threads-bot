@@ -32,11 +32,14 @@
   "job": "341f892e574a",
   "schedule": "every 15m"
  },
- "third": {
-  "role": "idle",
-  "dir": "~/accounts/acct_57861319688",
+ "panah": {
+  "role": "queue",
+  "dir": "~/panahberuang",
+  "runner": "~/panah_runner_api.py",
+  "python": "~/threads-playwright/.venv/bin/python",
   "state": "~/accounts/acct_57861319688/storage_state.json",
-  "job": null,
-  "note": "akun cadangan, belum ada tugas"
+  "queue": "~/panahberuang/panah_queue.json",
+  "job": "5a320a3b5c4d",
+  "schedule": "every 15m (post tiap 3 jam)"
  }
 }

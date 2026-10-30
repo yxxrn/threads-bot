@@ -18,7 +18,7 @@ cukup edit satu file ini.
 | `schedule` | jadwal job (informatif) |
 
 Akun yang terdaftar sekarang: `reply` (blooply utama), `blooply` (promo),
-`clove` (antrean tutorial + repo), `third` (cadangan, belum ada job).
+`clove` (antrean tutorial + repo), `panah` (antrean repo akun ketiga).
 
 ## Perintah
 
@@ -62,6 +62,7 @@ cd ~/accounts
 | reply daemon | reply | terus-menerus | `~/threads-bot/poster_daemon.py` |
 | refill komentar | reply | tiap 20m | `~/threads-bot/scraper_cycle.py` |
 | clove-post | clove | tiap 15m | `~/clove-post.sh` |
+| panah-post | panah | tiap 15m | `~/.hermes/scripts/panah-post.sh` |
 | blooply-promo | blooply | tiap 240m | `~/blooply_promo/blooply_promo.sh` |
 
 Job-nya sendiri tetap dipegang Hermes (`hermes cron list`), tapi ID-nya

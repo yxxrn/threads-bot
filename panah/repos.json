@@ -1,0 +1,860 @@
+[
+ {
+  "full_name": "zellij-org/zellij",
+  "url": "https://github.com/zellij-org/zellij",
+  "stars": 35890,
+  "desc": "A terminal workspace with batteries included",
+  "topics": [
+   "multiplexer",
+   "terminal",
+   "workspace"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "starship/starship",
+  "url": "https://github.com/starship/starship",
+  "stars": 60509,
+  "desc": "☄🌌️  The minimal, blazing-fast, and infinitely customizable prompt for any shell!",
+  "topics": [
+   "bash",
+   "fish",
+   "fish-prompt",
+   "fish-theme",
+   "oh-my-zsh",
+   "powershell",
+   "rust",
+   "shell-prompt",
+   "starship",
+   "zsh",
+   "zsh-prompt",
+   "zsh-theme"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "eza-community/eza",
+  "url": "https://github.com/eza-community/eza",
+  "stars": 23709,
+  "desc": "A modern alternative to ls",
+  "topics": [
+   "color",
+   "command-line",
+   "files",
+   "hacktoberfest",
+   "icons",
+   "ls",
+   "nerd-fonts",
+   "rust",
+   "terminal",
+   "tools"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "aristocratos/btop",
+  "url": "https://github.com/aristocratos/btop",
+  "stars": 35176,
+  "desc": "A monitor of resources",
+  "topics": [],
+  "lang": "C++"
+ },
+ {
+  "full_name": "bootandy/dust",
+  "url": "https://github.com/bootandy/dust",
+  "stars": 12561,
+  "desc": "A more intuitive version of du in rust",
+  "topics": [],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "sharkdp/hyperfine",
+  "url": "https://github.com/sharkdp/hyperfine",
+  "stars": 29185,
+  "desc": "A command-line benchmarking tool",
+  "topics": [
+   "benchmark",
+   "cli",
+   "command-line",
+   "rust",
+   "terminal",
+   "tool"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "casey/just",
+  "url": "https://github.com/casey/just",
+  "stars": 36489,
+  "desc": "🤖 Just a command runner",
+  "topics": [],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "direnv/direnv",
+  "url": "https://github.com/direnv/direnv",
+  "stars": 15525,
+  "desc": "unclutter your .profile",
+  "topics": [
+   "bash",
+   "direnv",
+   "environment",
+   "fish",
+   "shell",
+   "shell-extension",
+   "tcsh",
+   "zsh"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "jqlang/jq",
+  "url": "https://github.com/jqlang/jq",
+  "stars": 35983,
+  "desc": "Command-line JSON processor",
+  "topics": [
+   "jq"
+  ],
+  "lang": "C"
+ },
+ {
+  "full_name": "mikefarah/yq",
+  "url": "https://github.com/mikefarah/yq",
+  "stars": 16204,
+  "desc": "yq is a portable command-line YAML, JSON, XML, CSV, TOML, HCL  and properties processor",
+  "topics": [
+   "bash",
+   "cli",
+   "csv",
+   "devops-tools",
+   "golang",
+   "hcl",
+   "json",
+   "portable",
+   "properties",
+   "splat",
+   "terraform",
+   "toml",
+   "xml",
+   "yaml",
+   "yaml-processor"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "charmbracelet/glow",
+  "url": "https://github.com/charmbracelet/glow",
+  "stars": 27863,
+  "desc": "Render markdown on the CLI, with pizzazz! 💅🏻",
+  "topics": [
+   "cli",
+   "excitement",
+   "hacktoberfest",
+   "markdown"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "dandavison/delta",
+  "url": "https://github.com/dandavison/delta",
+  "stars": 32607,
+  "desc": "A syntax-highlighting pager for git, diff, grep, rg --json, and blame output",
+  "topics": [
+   "color-themes",
+   "delta",
+   "diff",
+   "git",
+   "git-delta",
+   "pager",
+   "rust",
+   "syntax-highlighter"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "atuinsh/atuin",
+  "url": "https://github.com/atuinsh/atuin",
+  "stars": 32147,
+  "desc": "✨ Making your shell magical",
+  "topics": [
+   "bash",
+   "fish",
+   "history",
+   "rust",
+   "shell",
+   "zsh"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "syncthing/syncthing",
+  "url": "https://github.com/syncthing/syncthing",
+  "stars": 89899,
+  "desc": "Open Source Continuous File Synchronization",
+  "topics": [
+   "go",
+   "p2p",
+   "peer-to-peer",
+   "synchronization"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "rclone/rclone",
+  "url": "https://github.com/rclone/rclone",
+  "stars": 60634,
+  "desc": "\"rsync for cloud storage\" - Google Drive, S3, Dropbox, Backblaze B2, One Drive, Swift, Hubic, Wasabi, Google Cloud Storage, Azure Blob, Azure Files, Yandex Files",
+  "topics": [
+   "azure-blob",
+   "azure-blob-storage",
+   "azure-files",
+   "backblaze-b2",
+   "cloud-storage",
+   "dropbox",
+   "encryption",
+   "ftp",
+   "fuse-filesystem",
+   "go",
+   "golang",
+   "google-cloud-storage",
+   "google-drive",
+   "onedrive",
+   "openstack-swift",
+   "rclone",
+   "s3",
+   "sftp",
+   "sync",
+   "webdav"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "restic/restic",
+  "url": "https://github.com/restic/restic",
+  "stars": 36885,
+  "desc": "Fast, secure, efficient backup program",
+  "topics": [
+   "backup",
+   "dedupe",
+   "deduplication",
+   "go",
+   "restic",
+   "secure-by-default"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "tailscale/tailscale",
+  "url": "https://github.com/tailscale/tailscale",
+  "stars": 38339,
+  "desc": "The easiest, most secure way to use WireGuard and 2FA.",
+  "topics": [
+   "2fa",
+   "oauth",
+   "sso",
+   "tailscale",
+   "vpn",
+   "wireguard"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "caddyserver/caddy",
+  "url": "https://github.com/caddyserver/caddy",
+  "stars": 78564,
+  "desc": "Fast and extensible multi-platform HTTP/1-2-3 web server with automatic HTTPS",
+  "topics": [
+   "acme",
+   "automatic-https",
+   "caddy",
+   "caddyfile",
+   "go",
+   "golang",
+   "http",
+   "http-server",
+   "http3",
+   "https",
+   "privacy",
+   "reverse-proxy",
+   "security",
+   "tls",
+   "web-server"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "dani-garcia/vaultwarden",
+  "url": "https://github.com/dani-garcia/vaultwarden",
+  "stars": 69932,
+  "desc": "Unofficial Bitwarden compatible server written in Rust, formerly known as bitwarden_rs",
+  "topics": [
+   "bitwarden",
+   "bitwarden-rs",
+   "docker",
+   "rocket",
+   "rust",
+   "vaultwarden"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "paperless-ngx/paperless-ngx",
+  "url": "https://github.com/paperless-ngx/paperless-ngx",
+  "stars": 47354,
+  "desc": "A community-supported supercharged document management system: scan, index and archive all your documents",
+  "topics": [
+   "ai",
+   "angular",
+   "archiving",
+   "django",
+   "dms",
+   "document-management",
+   "document-management-system",
+   "llm",
+   "machine-learning",
+   "ocr",
+   "optical-character-recognition",
+   "pdf"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "usememos/memos",
+  "url": "https://github.com/usememos/memos",
+  "stars": 64185,
+  "desc": "Memos is an open-source, self-hosted note-taking app that brings your everyday thoughts together in a personal timeline. Your data stays yours, and you choose what to keep private or share.",
+  "topics": [
+   "docker",
+   "foss",
+   "go",
+   "markdown",
+   "memo",
+   "microblog",
+   "note-taking",
+   "notes",
+   "open-source",
+   "own-your-data",
+   "react",
+   "self-hosted",
+   "sqlite",
+   "timeline"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "jellyfin/jellyfin",
+  "url": "https://github.com/jellyfin/jellyfin",
+  "stars": 58810,
+  "desc": "The Free Software Media System - Server Backend & API",
+  "topics": [
+   "csharp",
+   "dotnet",
+   "hacktoberfest",
+   "jellyfin"
+  ],
+  "lang": "C#"
+ },
+ {
+  "full_name": "navidrome/navidrome",
+  "url": "https://github.com/navidrome/navidrome",
+  "stars": 24438,
+  "desc": "🎧 Your Personal Streaming Service",
+  "topics": [
+   "airsonic",
+   "madsonic",
+   "media-server",
+   "music",
+   "music-server",
+   "navidrome",
+   "opensubsonic",
+   "raspberry-pi",
+   "self-hosted",
+   "streamer",
+   "streaming-api",
+   "streaming-audio",
+   "subsonic",
+   "subsonic-server"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "actualbudget/actual",
+  "url": "https://github.com/actualbudget/actual",
+  "stars": 29866,
+  "desc": "A local-first personal finance app",
+  "topics": [
+   "budgeting",
+   "finance",
+   "money",
+   "personal-finance"
+  ],
+  "lang": "TypeScript"
+ },
+ {
+  "full_name": "mealie-recipes/mealie",
+  "url": "https://github.com/mealie-recipes/mealie",
+  "stars": 13732,
+  "desc": "Mealie is a self hosted recipe manager and meal planner with a RestAPI backend and a reactive frontend application built in Vue for a pleasant user experience for the whole family. Easily add recipes into your database by providing the url and mealie will automatically import the relevant data or add a family recipe with the UI editor",
+  "topics": [
+   "meal-plans",
+   "recipe-manager",
+   "self-hosted"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "linkwarden/linkwarden",
+  "url": "https://github.com/linkwarden/linkwarden",
+  "stars": 20270,
+  "desc": "⚡️⚡️⚡️ Self-hosted collaborative bookmark manager to collect, read, annotate, and fully preserve what matters, all in one place.",
+  "topics": [
+   "bookmark",
+   "bookmark-manager",
+   "collaboration",
+   "nextjs",
+   "react-native",
+   "read-it-later",
+   "self-hosted",
+   "typescript"
+  ],
+  "lang": "TypeScript"
+ },
+ {
+  "full_name": "yt-dlp/yt-dlp",
+  "url": "https://github.com/yt-dlp/yt-dlp",
+  "stars": 203844,
+  "desc": "A feature-rich command-line audio/video downloader",
+  "topics": [
+   "cli",
+   "downloader",
+   "python",
+   "sponsorblock",
+   "youtube-dl",
+   "youtube-downloader",
+   "yt-dlp"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "HandBrake/HandBrake",
+  "url": "https://github.com/HandBrake/HandBrake",
+  "stars": 24824,
+  "desc": "HandBrake's development repository",
+  "topics": [
+   "gplv2",
+   "multi-platform",
+   "video-transcoding"
+  ],
+  "lang": "C"
+ },
+ {
+  "full_name": "obsproject/obs-studio",
+  "url": "https://github.com/obsproject/obs-studio",
+  "stars": 78606,
+  "desc": "OBS Studio - Free and open source software for live streaming and screen recording",
+  "topics": [
+   "c",
+   "c-plus-plus",
+   "directshow",
+   "facebook-live",
+   "ffmpeg",
+   "game-capture",
+   "live-streaming",
+   "screen-capture",
+   "twitch-tv",
+   "video-recording",
+   "youtube-live"
+  ],
+  "lang": "C"
+ },
+ {
+  "full_name": "KDE/kdenlive",
+  "url": "https://github.com/KDE/kdenlive",
+  "stars": 6002,
+  "desc": "Free and open source video editor, based on MLT Framework and KDE Frameworks",
+  "topics": [],
+  "lang": "C++"
+ },
+ {
+  "full_name": "darktable-org/darktable",
+  "url": "https://github.com/darktable-org/darktable",
+  "stars": 13358,
+  "desc": "darktable is an open source photography workflow application and raw developer",
+  "topics": [],
+  "lang": "C"
+ },
+ {
+  "full_name": "Stirling-Tools/Stirling-PDF",
+  "url": "https://github.com/Stirling-Tools/Stirling-PDF",
+  "stars": 95401,
+  "desc": "#1 PDF Application on GitHub that lets you edit PDFs on any device anywhere",
+  "topics": [
+   "docker",
+   "hacktoberfest",
+   "java",
+   "pdf",
+   "pdf-converter",
+   "pdf-editor",
+   "pdf-manipulation",
+   "pdf-merger",
+   "pdf-ocr",
+   "pdf-tools",
+   "pdf-web-apps",
+   "pdfmerger",
+   "self-hosted"
+  ],
+  "lang": "TypeScript"
+ },
+ {
+  "full_name": "jgm/pandoc",
+  "url": "https://github.com/jgm/pandoc",
+  "stars": 46752,
+  "desc": "Universal markup converter",
+  "topics": [
+   "commonmark",
+   "converter",
+   "document",
+   "haskell",
+   "markdown",
+   "markup",
+   "pandoc",
+   "presentation",
+   "publishing"
+  ],
+  "lang": "Haskell"
+ },
+ {
+  "full_name": "marktext/marktext",
+  "url": "https://github.com/marktext/marktext",
+  "stars": 63337,
+  "desc": "📝A simple and elegant markdown editor, available for Linux, macOS and Windows.",
+  "topics": [
+   "editor",
+   "electron",
+   "focus-mode",
+   "latex",
+   "linux",
+   "mac",
+   "macos",
+   "markdown",
+   "marktext",
+   "source-code",
+   "typewriter-mode",
+   "windows"
+  ],
+  "lang": "TypeScript"
+ },
+ {
+  "full_name": "logseq/logseq",
+  "url": "https://github.com/logseq/logseq",
+  "stars": 45420,
+  "desc": "A privacy-first, open-source platform for knowledge management and collaboration. Download link:  http://github.com/logseq/logseq/releases. roadmap: https://logseq.io/p/NX4mc_ggEV",
+  "topics": [
+   "clojure",
+   "clojurescript",
+   "git",
+   "graph",
+   "knowledge-base",
+   "knowledge-graph",
+   "local-first",
+   "markdown",
+   "note-taking",
+   "org-mode",
+   "pkm"
+  ],
+  "lang": "Clojure"
+ },
+ {
+  "full_name": "laurent22/joplin",
+  "url": "https://github.com/laurent22/joplin",
+  "stars": 56940,
+  "desc": "Joplin - the privacy-focused note taking app with sync capabilities for Windows, macOS, Linux, Android and iOS.",
+  "topics": [
+   "android",
+   "dropbox",
+   "electron",
+   "enex-files",
+   "evernote",
+   "javascript",
+   "joplin",
+   "nextcloud",
+   "nodejs",
+   "note-taking",
+   "notesnook",
+   "obsidian",
+   "onedrive",
+   "react-native",
+   "standardnotes",
+   "synchronisation",
+   "web-clipper",
+   "webdav"
+  ],
+  "lang": "TypeScript"
+ },
+ {
+  "full_name": "karakeep-app/karakeep",
+  "url": "https://github.com/karakeep-app/karakeep",
+  "stars": 30156,
+  "desc": "A self-hostable bookmark-everything app (links, notes and images) with AI-based automatic tagging and full text search",
+  "topics": [
+   "bookmark-manager",
+   "bookmarks",
+   "bookmarks-manager",
+   "nextjs",
+   "react-native",
+   "read-it-later",
+   "self-hosted"
+  ],
+  "lang": "TypeScript"
+ },
+ {
+  "full_name": "ggml-org/llama.cpp",
+  "url": "https://github.com/ggml-org/llama.cpp",
+  "stars": 132826,
+  "desc": "LLM inference in C/C++",
+  "topics": [
+   "ggml"
+  ],
+  "lang": "C++"
+ },
+ {
+  "full_name": "openai/whisper",
+  "url": "https://github.com/openai/whisper",
+  "stars": 111573,
+  "desc": "Robust Speech Recognition via Large-Scale Weak Supervision",
+  "topics": [],
+  "lang": "Python"
+ },
+ {
+  "full_name": "SYSTRAN/faster-whisper",
+  "url": "https://github.com/SYSTRAN/faster-whisper",
+  "stars": 26321,
+  "desc": "Faster Whisper transcription with CTranslate2",
+  "topics": [
+   "deep-learning",
+   "inference",
+   "openai",
+   "quantization",
+   "speech-recognition",
+   "speech-to-text",
+   "transformer",
+   "whisper"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "BerriAI/litellm",
+  "url": "https://github.com/BerriAI/litellm",
+  "stars": 62372,
+  "desc": "The fastest, litest AI Gateway. Rust core with Python SDK. Call 100+ LLM APIs in OpenAI (or native) format with cost tracking, guardrails, load balancing, and logging [Bedrock, Azure, OpenAI, Anthropic, OpenAI, VertexAI, vLLM, Nvidia NIM]",
+  "topics": [
+   "ai-gateway",
+   "anthropic",
+   "azure-openai",
+   "bedrock",
+   "gateway",
+   "langchain",
+   "litellm",
+   "llm",
+   "llm-gateway",
+   "llmops",
+   "mcp-gateway",
+   "openai",
+   "openai-proxy",
+   "rust",
+   "rust-ai",
+   "vertex-ai"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "Mintplex-Labs/anything-llm",
+  "url": "https://github.com/Mintplex-Labs/anything-llm",
+  "stars": 67745,
+  "desc": "Stop renting your intelligence. Own it with AnythingLLM. Everything you need for a powerful local-first agent experience",
+  "topics": [
+   "agent-computer",
+   "agent-harness",
+   "agent-orchestration",
+   "agentic-ai",
+   "agentic-workflow",
+   "ai-agents",
+   "computer-use",
+   "hermes-agent",
+   "llm",
+   "local-ai",
+   "localai",
+   "multimodal",
+   "rag",
+   "self-hosted-ai",
+   "vector-database"
+  ],
+  "lang": "JavaScript"
+ },
+ {
+  "full_name": "docling-project/docling",
+  "url": "https://github.com/docling-project/docling",
+  "stars": 69858,
+  "desc": "Get your documents ready for gen AI",
+  "topics": [
+   "ai",
+   "convert",
+   "document-parser",
+   "document-parsing",
+   "documents",
+   "docx",
+   "html",
+   "markdown",
+   "pdf",
+   "pdf-converter",
+   "pdf-to-json",
+   "pdf-to-text",
+   "pptx",
+   "tables",
+   "xlsx"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "astral-sh/uv",
+  "url": "https://github.com/astral-sh/uv",
+  "stars": 91359,
+  "desc": "An extremely fast Python package and project manager, written in Rust.",
+  "topics": [
+   "packaging",
+   "python",
+   "resolver",
+   "uv"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "astral-sh/ruff",
+  "url": "https://github.com/astral-sh/ruff",
+  "stars": 50337,
+  "desc": "An extremely fast Python linter and code formatter, written in Rust.",
+  "topics": [
+   "linter",
+   "pep8",
+   "python",
+   "python3",
+   "ruff",
+   "rust",
+   "rustpython",
+   "static-analysis",
+   "static-code-analysis",
+   "style-guide",
+   "styleguide"
+  ],
+  "lang": "Rust"
+ },
+ {
+  "full_name": "aquasecurity/trivy",
+  "url": "https://github.com/aquasecurity/trivy",
+  "stars": 38854,
+  "desc": "Find vulnerabilities, misconfigurations, secrets, SBOM in containers, Kubernetes, code repositories, clouds and more",
+  "topics": [
+   "containers",
+   "devsecops",
+   "docker",
+   "go",
+   "golang",
+   "hacktoberfest",
+   "iac",
+   "infrastructure-as-code",
+   "kubernetes",
+   "misconfiguration",
+   "security",
+   "security-tools",
+   "vulnerability",
+   "vulnerability-detection",
+   "vulnerability-scanners"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "gitleaks/gitleaks",
+  "url": "https://github.com/gitleaks/gitleaks",
+  "stars": 30522,
+  "desc": "Find secrets with Gitleaks 🔑",
+  "topics": [
+   "ai-powered",
+   "ci-cd",
+   "cicd",
+   "cli",
+   "data-loss-prevention",
+   "devsecops",
+   "dlp",
+   "git",
+   "gitleaks",
+   "go",
+   "golang",
+   "hacktoberfest",
+   "llm",
+   "llm-inference",
+   "llm-training",
+   "nhi",
+   "open-source",
+   "secret",
+   "security",
+   "security-tools"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "FiloSottile/age",
+  "url": "https://github.com/FiloSottile/age",
+  "stars": 24122,
+  "desc": "A simple, modern and secure encryption tool (and Go library) with small explicit keys, no config options, and UNIX-style composability.",
+  "topics": [
+   "age-encryption",
+   "built-at-rc"
+  ],
+  "lang": "Go"
+ },
+ {
+  "full_name": "mitmproxy/mitmproxy",
+  "url": "https://github.com/mitmproxy/mitmproxy",
+  "stars": 46488,
+  "desc": "An interactive TLS-capable intercepting HTTP proxy for penetration testers and software developers.",
+  "topics": [
+   "debugging",
+   "http",
+   "http2",
+   "man-in-the-middle",
+   "mitmproxy",
+   "proxy",
+   "python",
+   "security",
+   "ssl",
+   "tls",
+   "websocket"
+  ],
+  "lang": "Python"
+ },
+ {
+  "full_name": "sherlock-project/sherlock",
+  "url": "https://github.com/sherlock-project/sherlock",
+  "stars": 95234,
+  "desc": "Hunt down social media accounts by username across social networks",
+  "topics": [
+   "cli",
+   "cti",
+   "cybersecurity",
+   "forensics",
+   "hacktoberfest",
+   "information-gathering",
+   "infosec",
+   "linux",
+   "osint",
+   "pentesting",
+   "python",
+   "python3",
+   "reconnaissance",
+   "redteam",
+   "sherlock",
+   "tools"
+  ],
+  "lang": "Python"
+ }
+]
