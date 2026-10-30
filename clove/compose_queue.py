@@ -117,6 +117,7 @@ def main() -> int:
     ap.add_argument("--out", default="~/clove/clove_queue.json")
     ap.add_argument("--start", default="", help="ISO start time (default: sekarang WIB)")
     ap.add_argument("--interval", type=int, default=180, help="menit antar post")
+    ap.add_argument("--skip-muse", action="store_true", help="hanya post repo")
     a = ap.parse_args()
 
     media = Path(a.media).expanduser()
@@ -161,6 +162,9 @@ def main() -> int:
         mi += 1
     while ri < len(repos):
         add_repo()
+
+    if a.skip_muse:
+        seq = [s for s in seq if s["kind"] == "repo"]
 
     start = datetime.fromisoformat(a.start) if a.start else datetime.now(WIB)
     start = start.replace(second=0, microsecond=0)
