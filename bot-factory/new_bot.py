@@ -341,15 +341,22 @@ def main() -> None:
         (scripts_draft / new_script_names[role]).write_text(text)
 
     # --- 6. Cek sisa template (peringatan, bukan gagal) ---
+    # Catatan: path venv bersama (mis. threads-bot-panah/venv) memang sengaja
+    # dipertahankan, dan folder baru (threads-bot-dummytext) mengandung path
+    # template (threads-bot) sebagai prefix. Karena itu pengecekan memakai
+    # pola berbatas + mengecualikan path venv, bukan substring mentah.
     leftovers = []
     for f in list(target.glob("*.py")) + list(target.glob("*.json")):
         if f.name in ("jobs-draft.json", "account.json", "session_meta.json"):
             continue
         t = f.read_text(errors="replace")
-        if old_dir in t:
+        if re.search(re.escape(old_dir) + r"(?![A-Za-z0-9_-])", t):
             leftovers.append(f"{f.name}: sisa path template")
     draft_text = (target / "jobs-draft.json").read_text()
-    for probe in (old_dir, tpl["names"][0], tpl["names"][1], tpl["names"][2],
+    draft_check = draft_text.replace(str(venv_path), "")
+    if re.search(re.escape(old_dir) + r"(?![A-Za-z0-9_-])", draft_check):
+        leftovers.append("jobs-draft.json: sisa path template")
+    for probe in (tpl["names"][0], tpl["names"][1], tpl["names"][2],
                   "@panahberuang"):
         if probe in draft_text:
             leftovers.append(f"jobs-draft.json: sisa {probe!r}")
