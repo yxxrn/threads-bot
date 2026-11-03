@@ -1,7 +1,0 @@
-{
-  "handle": "blooplyy_",
-  "session_status": "LOGOUT (terbukti 2026-11-03: screenshot login wall + probe DOM tanpa tautan profil)",
-  "previous_session": "cookies segar dari Amad, ditransplantasi 2 Nov 2026 (kini mati)",
-  "daemon": "STOPPED sejak 2026-11-03 ~10:10 WIB sampai cookies segar dipasang + verify MATCH",
-  "guard": "account_guard.py diperketat 2026-11-03: tautan feed bukan bukti login"
-}

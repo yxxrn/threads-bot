@@ -1,7 +1,0 @@
-{
-  "handle": "panahberuang",
-  "session_status": "NONE",
-  "note": "state.json dipindah 3 Nov 2026 karena berisi sesi blooply (bukti: state.json.WRONG-BLOOPLY-20261103). Daemon TIDAK boleh jalan sampai cookies segar akun panah dipasang.",
-  "needed": "cookies segar akun panah dari Amad",
-  "guard": "account_guard.py + verify_account.py (2026-11-03)"
-}

@@ -1,66 +1,104 @@
-# Threads bots backup (code only)
+# Bot reply Threads
 
-Snapshot: 2026-11-02. Repo ini berisi KODE bot reply Threads Blooply/Clove/Panah
-dan promo profil Blooply di vm-11. Dibuat agar perbaikan tidak hilang bila mesin
-diganti/dibangun ulang.
+Kode bot yang membalas postingan Threads orang lain dari akun-akun yang
+dikelola pemilik. Satu akun = satu instance (folder + 3 job Hermes +
+daemon poster). Repo ini berisi KODE-nya saja; sesi login, antrean, dan
+log runtime tidak pernah masuk repo.
+
+## Dua mode
+
+| Mode | Isi balasan | Dipakai akun |
+| --- | --- | --- |
+| `affiliate` | Balasan + satu link katalog Shopee (komisi >= 8%), kadang balasan extra ke balasan atas bila post ramai (>= 20 balasan), foto produk hanya di jam media gate | Model panah/clove |
+| `text` | Balasan teks saja: reaksi nyambung + promosi halus tanpa link | Model blooply |
+
+Aturan yang berlaku untuk semua mode: tanpa harga dalam bentuk apa pun,
+tanpa menyebut nama akun lawan bicara di awal balasan, tanpa em-dash,
+bahasa Indonesia, ramah dan tidak menyinggung, dan setiap balasan affiliate
+wajib membawa link katalog (bila tidak ada produk yang nyambung, pakai
+produk umum dengan transisi santai tanpa mengklaim nyambung).
+
+## Struktur
+
+```
+src/                  Kode bersama semua mode dan semua akun:
+                      guard identitas, verifikasi akun, antrean, pool,
+                      scraper, monitor, cek sesi.
+modes/affiliate/      Kode + konfigurasi khusus mode affiliate
+                      (poster main+extra, merge v2, filter title-paste
+                      dan anti-generik, katalog, top-reply).
+modes/text/           Kode + konfigurasi khusus mode teks
+                      (poster balasan tunggal, merge v1, tanpa foto).
+bot-factory/          Perkakas pasang/lepas akun (lihat di bawah).
+panah/ clove/         Sisa file bawaan repo lama (captions, compose_queue,
+reply-bot/            repos, prompt, tools). BUKAN kode bot aktif: kode
+                      bot sudah pindah ke src/ + modes/ sejak 2026-11-03.
+api-experiment/       Perkakas API Threads terpisah (promo profil, dsb).
+accounts/ autopost/   Perkakas lain yang sudah ada di repo ini.
+docs/ migration/
+```
+
+Folder `panah/`, `clove/`, `reply-bot/` dulunya berisi salinan kode per
+akun. Sejak restruktur 2026-11-03, kode hanya ada satu salinan (general)
+di `src/` + `modes/`; yang tersisa di folder-folder itu hanyalah file
+bawaan upstream yang tidak terkait kode poster. Jangan menambah kode baru
+ke folder akun; tambah ke `src/` atau `modes/` lalu scaffold instance
+baru dari sana.
+
+## Tambah akun baru (bongkar pasang)
+
+```bash
+python3 bot-factory/new_bot.py --handle @namaakun --mode affiliate
+python3 bot-factory/new_bot.py --handle @namaakun --mode text
+```
+
+Instance baru lahir dalam keadaan PARKIR (file `STOPPED` ada, job Hermes
+nonaktif). Aktivasi wajib urut: pasang cookies akun itu sendiri ->
+`verify_account.py` harus MATCH -> hapus `STOPPED` atas perintah pemilik
+-> aktifkan job -> start daemon -> verifikasi post pertama. Detail dan
+daftar yang masih perlu disesuaikan manual (persona, keyword, promo) ada
+di `bot-factory/README.md` dan di `SETUP.md` tiap instance.
+
+Lepas akun:
+
+```bash
+python3 bot-factory/remove_bot.py /home/agentuser/threads-bot-nama
+```
+
+Menghentikan daemon, menghapus job + script, dan mengarsipkan folder
+instance (bukan menghapus permanen).
+
+## Pengaman yang tidak bisa ditawar
+
+- **Guard identitas** (`src/account_guard.py`): sebelum posting apa pun,
+  daemon membuktikan akun yang login sama dengan `account.json` instance.
+  Gagal (sesi salah, logout, atau tidak bisa ditentukan) = daemon keluar
+  tanpa posting. Bukti sah hanya tautan profil di navigasi; tautan feed
+  BUKAN bukti (insiden 2026-11-03: guard sempat terkecoh tautan feed).
+- **STOPPED**: file ini berarti stop disengaja. Watchdog dilarang me-restart
+  daemon selama STOPPED ada; STOPPED hanya boleh dihapus atas perintah
+  eksplisit pemilik atau sesudah sesi baru lolos guard.
+- **Sesi tidak pernah disalin antar instance.** Setiap sesi berasal dari
+  cookies akun itu sendiri; setiap pemasangan wajib backup state lama dan
+  lolos `verify_account.py`. File sesi tidak pernah di-commit
+  (lihat `.gitignore`).
+- **Sesi reply dicek di halaman post** (`src/check_reply_session.py`),
+  bukan halaman home: cek home pernah melaporkan login padahal halaman
+  post sudah menampilkan dinding login.
 
 ## Yang TIDAK ada di repo ini (sengaja)
-- state.json, storage_state*.json, cookies*.txt, session.json: berisi sesi login
-  (RAHASIA, dan kedaluwarsa). Jangan pernah di-commit. Sesi dipulihkan lewat
-  prosedur refresh di bawah, bukan lewat git.
-- *.log, posted_history.jsonl, comments*.json, candidates*.json, found_posts*.json:
-  data operasional runtime, bukan kode.
-- catalog/: 339 gambar produk, regenerable dari file affiliate links.
-- shots/: screenshot debugging.
 
-## Perbaikan penting yang tersimpan di sini
-- 2026-11-01: anti-generik guard (is_generic_reaction) di merge_comments.py dan
-  auto_comment.py clove+panah; LINK-ALL defense di post_item; perbaikan NameError
-  (import re eksplisit); persona + ATURAN ANTI-GENERIK di prompt refill.
-- 2026-11-02: diagnosis login wall (lihat bawah) + check_reply_session.py.
+- `state.json`, `storage_state*.json`, `cookies*.txt`, `session.json`:
+  sesi login (rahasia dan kedaluwarsa). Sesi dipulihkan lewat prosedur
+  refresh (cookies segar akun itu -> `verify_account.py` MATCH), bukan
+  lewat git.
+- Antrean, log, histori post, screenshot debug, gambar katalog: data
+  runtime, bukan kode. Gambar katalog bisa diregenerasi dari file
+  affiliate links; `modes/affiliate/catalog.json` (daftar offer) ikut
+  repo karena itu data publik katalog, bukan sesi.
 
-## Prosedur refresh sesi reply (terbukti 2026-11-02)
-1. Minta cookies segar dari pemegang akun (format Netscape dari Cookie-Editor).
-2. Konversi ke format Playwright storage_state (strip quotes, decode octal \054
-   jadi koma, %3A dipertahankan seperti file lama) -> tulis ke state.json instance
-   (backup dulu: state.json.bak-YYYYMMDD-HHMM). Verifikasi: 8 nama cookie sama,
-   ds_user_id sama dengan file lama (perbandingan boolean saja).
-3. Restart daemon (systemd-run --user --unit=threads-poster-<nama> ...).
-4. Verifikasi 2 OK berturut di daemon.log sebelum menyatakan beres.
+## Status fleet
 
-## Pelajaran login wall (2026-11-02)
-Gejala no_expand_button 100% selama 1 jam ternyata sesi browser SUDAH LOGOUT:
-klik Reply memunculkan dinding "Say more with Threads", bukan composer.
-check_login.py yang hanya mengecek halaman home memberi FALSE POSITIVE
-(LOGGED_IN True padahal halaman post menunjukkan dinding login).
-Verifikasi sesi reply WAJIB di halaman post: jalankan check_reply_session.py
-dengan satu URL post antrean; verdict LOGIN_WALL berarti sesi mati.
-
-## Push ke GitHub (belum dilakukan, butuh repo + deploy key)
-1. Buat repo privat kosong di GitHub.
-2. Tambahkan public key ~/.ssh/id_github_bots.pub sebagai Deploy key (write access).
-3. git remote add origin <url> && git push -u origin main
-
-## Insiden 2026-11-03 + guard identitas akun
-
-Pada 2 Nov 2026, transplantasi cookies blooply ikut tersalin ke state.json
-panah (mtime identik, ds_user_id identik). Akibatnya 206 post affiliate
-panah (2 Nov 19:30 WIB s.d. 3 Nov 09:12 WIB) terbit sebagai @blooplyy_.
-Perbaikan 3 Nov 2026 (commit ini):
-- `account_guard.py` + `verify_account.py` di tiap instance: sebelum posting
-  apa pun, daemon WAJIB membuktikan sesi yang login == handle di `account.json`
-  (baca tautan profil di navigasi home). Gagal = daemon keluar, tidak posting.
-- `account.json` (handle yang ditugaskan) + `session_meta.json` (metadata sesi,
-  tanpa secret) di tiap instance.
-- Daemon menolak jalan bila file `STOPPED` ada (stop disengaja yang ditaati
-  watchdog; menghapus STOPPED hanya atas perintah eksplisit pemilik).
-- Prompt + playbook watchdog (WATCHDOG.md) diperbarui: file STOPPED berarti
-  daemon yang tidak jalan BUKAN masalah dan JANGAN di-restart.
-- Aturan sesi: JANGAN PERNAH menyalin state.json antar instance. Sesi tiap
-  akun hanya berasal dari cookies akun itu sendiri; setiap pemasangan sesi
-  wajib membackup state.json lama dan lolos `verify_account.py`.
-- Status 3 Nov 2026: blooply jalan lagi (guard lolos); panah STOPPED (sesi
-  asli tertimpa, menunggu cookies segar akun panah); clove STOPPED (akun
-  tersuspend 1 Nov 2026).
-
-Penyempurnaan guard 2026-11-03 (siang): tautan feed BUKAN bukti login. Guard awal sempat terkecoh tautan feed saat sesi blooply sudah logout (false MATCH); setelah diperketat, sesi logout terdeteksi sebagai UNDETERMINED/feed-only dan daemon menolak jalan. Hanya tautan profil navigasi (aria-profile/nav) yang dihitung sebagai bukti login.
+Status akun yang sedang jalan TIDAK ditulis di README ini (gampang basi;
+README lama pernah mengklaim status yang sudah salah). Status live ada di
+`session_meta.json` tiap instance di mesin vm-11.
