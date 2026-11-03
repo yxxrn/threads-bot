@@ -49,11 +49,10 @@ def detect_handle(page):
       if (prof) { const h = parse(prof.getAttribute("href")); if (h) return {handle: h, via: "aria-profile"}; }
       const navs = [...document.querySelectorAll('nav a[href^="/@"]')];
       for (const a of navs) { const h = parse(a.getAttribute("href")); if (h) return {handle: h, via: "nav"}; }
+      // Tautan feed BUKAN bukti login (pelajaran 2026-11-03: guard terkecoh tautan
+      // feed saat sesi sudah logout). Hanya tautan profil navigasi yang sah.
       const all = [...document.querySelectorAll('a[href^="/@"]')];
-      for (const a of all) {
-        if (a.closest("article")) continue;
-        const h = parse(a.getAttribute("href")); if (h) return {handle: h, via: "non-article"};
-      }
+      if (all.length > 0) return {handle: null, via: "feed-only"};
       const body = document.body.innerText || "";
       const wall = body.includes("Say more with Threads") || body.includes("Log in or sign up for Threads");
       return {handle: null, via: wall ? "login-wall" : "undetermined"};

@@ -62,3 +62,5 @@ Perbaikan 3 Nov 2026 (commit ini):
 - Status 3 Nov 2026: blooply jalan lagi (guard lolos); panah STOPPED (sesi
   asli tertimpa, menunggu cookies segar akun panah); clove STOPPED (akun
   tersuspend 1 Nov 2026).
+
+Penyempurnaan guard 2026-11-03 (siang): tautan feed BUKAN bukti login. Guard awal sempat terkecoh tautan feed saat sesi blooply sudah logout (false MATCH); setelah diperketat, sesi logout terdeteksi sebagai UNDETERMINED/feed-only dan daemon menolak jalan. Hanya tautan profil navigasi (aria-profile/nav) yang dihitung sebagai bukti login.
