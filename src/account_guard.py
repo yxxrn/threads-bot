@@ -11,6 +11,17 @@ Aturan fail-closed (gagal = tidak posting, daemon keluar):
 - handle yang terbaca dari navigasi != handle yang ditugaskan -> TOLAK.
 - handle tidak bisa ditentukan (dinding login / DOM tak dikenali) -> TOLAK.
 
+Bukti login yang diterima (berurutan, yang pertama cocok dipakai):
+- aria-profile: tautan a[aria-label="Profile"/"Profil"].
+- nav: tautan pertama nav a[href^="/@"].
+- chrome-profile (ditambah 2026-11-03 malam): chrome aplikasi me-render
+  tautan profil pemilik berkali-kali SEBELUM konten feed (teramati: 3x,
+  tanpa aria-label, tanpa <nav> di render ini). Karena tautan penulis feed
+  bervariasi per post, disyaratkan DUA tautan telanjang non-article pertama
+  merujuk handle yang sama; satu tautan saja, atau dua handle berbeda,
+  tidak membuktikan apa-apa (fail-closed). Dinding login diperiksa dulu:
+  bila teks dinding ada, langsung UNDETERMINED apa pun tautannya.
+
 Modul ini HANYA membaca navigasi home dan DOM; tidak mengetik, tidak memposting.
 """
 from __future__ import annotations
@@ -29,10 +40,12 @@ def load_expected(bot_dir: Path):
         return None
 
 def detect_handle(page):
-    """Baca handle akun yang login dari tautan profil di navigasi.
-    Mengembalikan (handle_atau_None, metode). Hanya tautan di dalam <nav> atau
-    di luar <article> yang dipakai, supaya tautan penulis di feed tidak pernah
-    disangka sebagai akun sendiri."""
+    """Baca handle akun yang login dari tautan profil di navigasi/chrome.
+
+    Mengembalikan (handle_atau_None, metode). Tautan penulis di feed tidak
+    pernah disangka sebagai akun sendiri: hanya tautan profil navigasi,
+    atau dua tautan chrome pertama yang sepakat, yang dipakai.
+    """
     page.goto(HOME_URL, timeout=120000, wait_until="domcontentloaded")
     page.wait_for_timeout(4000)
     found = page.evaluate("""() => {
@@ -44,18 +57,23 @@ def detect_handle(page):
         }
         return null;
       };
+      const body = document.body.innerText || "";
+      const wall = body.includes("Say more with Threads") || body.includes("Log in or sign up for Threads");
+      if (wall) return {handle: null, via: "login-wall"};
       const prof = document.querySelector('a[aria-label="Profile"]')
         || document.querySelector('a[aria-label="Profil"]');
       if (prof) { const h = parse(prof.getAttribute("href")); if (h) return {handle: h, via: "aria-profile"}; }
       const navs = [...document.querySelectorAll('nav a[href^="/@"]')];
       for (const a of navs) { const h = parse(a.getAttribute("href")); if (h) return {handle: h, via: "nav"}; }
-      // Tautan feed BUKAN bukti login (pelajaran 2026-11-03: guard terkecoh tautan
-      // feed saat sesi sudah logout). Hanya tautan profil navigasi yang sah.
+      const bare = [...document.querySelectorAll('a[href^="/@"]')]
+        .filter(a => !a.closest('article'))
+        .map(a => parse(a.getAttribute("href")))
+        .filter(Boolean);
+      if (bare.length >= 2 && bare[0] === bare[1]) return {handle: bare[0], via: "chrome-profile"};
+      if (bare.length > 0) return {handle: null, via: "chrome-single"};
       const all = [...document.querySelectorAll('a[href^="/@"]')];
       if (all.length > 0) return {handle: null, via: "feed-only"};
-      const body = document.body.innerText || "";
-      const wall = body.includes("Say more with Threads") || body.includes("Log in or sign up for Threads");
-      return {handle: null, via: wall ? "login-wall" : "undetermined"};
+      return {handle: null, via: "undetermined"};
     }""")
     return found.get("handle"), found.get("via", "?")
 
