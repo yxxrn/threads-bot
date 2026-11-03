@@ -76,6 +76,26 @@ def main() -> int:
         log(f"not starting: {why}")
         return 5
 
+    # Stop sengaja (2026-11-03): file STOPPED berarti pemilik menghentikan
+    # instance ini; daemon tidak boleh jalan apa pun alasannya sampai file
+    # ini dihapus atas perintah pemilik.
+    if (BOT / "STOPPED").exists():
+        log("not starting: STOPPED file present (intentionally stopped)")
+        return 8
+
+    # Penjaga identitas akun (insiden 2026-11-03): daemon tidak boleh jalan
+    # tanpa account.json dan tanpa state.json. Verifikasi sesi penuh terjadi
+    # di bawah, tepat setelah konteks browser pertama dibuat.
+    sys.path.insert(0, str(BOT))
+    import account_guard
+    expected = account_guard.load_expected(BOT)
+    if not expected:
+        log("not starting: account.json hilang/rusak (tidak bisa verifikasi akun)")
+        return 6
+    if not ac.STATE.exists():
+        log(f"not starting: state.json hilang untuk @{expected} (pasang sesi akun ini dulu)")
+        return 6
+
     from cloakbrowser import launch
 
     def new_ctx():
@@ -85,6 +105,15 @@ def main() -> int:
         return b, c, p
 
     browser, ctx, page = new_ctx()
+    ok_g, exp_g, found_g, via_g = account_guard.verify(page, BOT)
+    if not ok_g:
+        log(f"ACCOUNT_GUARD REFUSED: expected=@{exp_g} found={found_g} via={via_g} (tidak posting apa pun)")
+        try:
+            browser.close()
+        except Exception:
+            pass
+        return 7
+    log(f"account guard OK: sesi terverifikasi sebagai @{found_g} (via={via_g})")
     log(f"daemon started ({why})")
 
     results = []
@@ -124,6 +153,15 @@ def main() -> int:
                         pass
                     try:
                         browser, ctx, page = new_ctx()
+                        ok_g, exp_g, found_g, via_g = account_guard.verify(page, BOT)
+                        if not ok_g:
+                            log(f"ACCOUNT_GUARD REFUSED after relaunch: expected=@{exp_g} found={found_g} via={via_g}")
+                            try:
+                                browser.close()
+                            except Exception:
+                                pass
+                            return 7
+                        log(f"account guard OK after relaunch: @{found_g} (via={via_g})")
                         exc_streak = 0
                     except Exception as e2:
                         log(f"relaunch failed: {e2}; cooling down 5 min")

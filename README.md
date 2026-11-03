@@ -1,72 +1,64 @@
-# threads-bot
+# Threads bots backup (code only)
 
-Dua tool otomasi Threads + X untuk promosi [Blooply](https://app.blooply.id)
-(app PC pemotong video panjang jadi klip 9:16). Semuanya berbasis browser
-(Playwright + CloakBrowser), tanpa API resmi Meta/X, dan tanpa layanan cloud:
-semua jalan lokal di VPS/PC sendiri.
+Snapshot: 2026-11-02. Repo ini berisi KODE bot reply Threads Blooply/Clove/Panah
+dan promo profil Blooply di vm-11. Dibuat agar perbaikan tidak hilang bila mesin
+diganti/dibangun ulang.
 
-| Folder | Fungsi | Butuh apa |
-|---|---|---|
-| [`autopost/`](autopost/) | Posting ke **akun sendiri**: promo Blooply (Threads/X/FB), muse.ai referral, chain thread, carousel media | Python + browser |
-| [`reply-bot/`](reply-bot/) | **Bot reply**: balas postingan orang lain dengan komentar relevan + promo halus, plus pipeline scrape/refill antrean | Python + browser (+ opsional penjadwal) |
-| [`api-experiment/`](api-experiment/) | **API unofficial tanpa browser**: post/reply/chain/delete ke Threads pakai HTTP murni (GraphQL + REST internal), tanpa Chromium | Python + cookies session |
-| [`docs/`](docs/) | Dokumentasi arsitektur, setup per-mesin, integrasi penjadwal (Hermes), troubleshooting | — |
+## Yang TIDAK ada di repo ini (sengaja)
+- state.json, storage_state*.json, cookies*.txt, session.json: berisi sesi login
+  (RAHASIA, dan kedaluwarsa). Jangan pernah di-commit. Sesi dipulihkan lewat
+  prosedur refresh di bawah, bukan lewat git.
+- *.log, posted_history.jsonl, comments*.json, candidates*.json, found_posts*.json:
+  data operasional runtime, bukan kode.
+- catalog/: 339 gambar produk, regenerable dari file affiliate links.
+- shots/: screenshot debugging.
 
-## Kenapa dipisah per folder?
+## Perbaikan penting yang tersimpan di sini
+- 2026-11-01: anti-generik guard (is_generic_reaction) di merge_comments.py dan
+  auto_comment.py clove+panah; LINK-ALL defense di post_item; perbaikan NameError
+  (import re eksplisit); persona + ATURAN ANTI-GENERIK di prompt refill.
+- 2026-11-02: diagnosis login wall (lihat bawah) + check_reply_session.py.
 
-- **`autopost/`** — pola kerjanya *one-shot*: script dipanggil (manual atau
-  cron), post, selesai. Tidak ada state antrean. Contoh pemakaian: cron
-  `blooply-promo` tiap 4 jam.
-- **`reply-bot/`** — pola kerjanya *kontinu*: ada antrean (`comments.json`),
-  daemon yang posting terus, dan pipeline refill yang terus mencari post baru
-  untuk dibalas. Butuh "otak" untuk menulis komentar (agent LLM atau script
-  sendiri — lihat [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)).
-- **`api-experiment/`** — eksperimen terverifikasi: Threads bisa dipost tanpa
-  Chromium, lewat API internal web mereka (`/api/graphql` +
-  `/api/v1/media/configure_text_only_post/`) dengan `curl_cffi` (TLS
-  impersonate Chrome). Lebih ringan dari browser, tapi endpoint internal bisa
-  berubah sewaktu-waktu — lihat [`api-experiment/README.md`](api-experiment/README.md).
+## Prosedur refresh sesi reply (terbukti 2026-11-02)
+1. Minta cookies segar dari pemegang akun (format Netscape dari Cookie-Editor).
+2. Konversi ke format Playwright storage_state (strip quotes, decode octal \054
+   jadi koma, %3A dipertahankan seperti file lama) -> tulis ke state.json instance
+   (backup dulu: state.json.bak-YYYYMMDD-HHMM). Verifikasi: 8 nama cookie sama,
+   ds_user_id sama dengan file lama (perbandingan boolean saja).
+3. Restart daemon (systemd-run --user --unit=threads-poster-<nama> ...).
+4. Verifikasi 2 OK berturut di daemon.log sebelum menyatakan beres.
 
-## Mulai cepat
+## Pelajaran login wall (2026-11-02)
+Gejala no_expand_button 100% selama 1 jam ternyata sesi browser SUDAH LOGOUT:
+klik Reply memunculkan dinding "Say more with Threads", bukan composer.
+check_login.py yang hanya mengecek halaman home memberi FALSE POSITIVE
+(LOGGED_IN True padahal halaman post menunjukkan dinding login).
+Verifikasi sesi reply WAJIB di halaman post: jalankan check_reply_session.py
+dengan satu URL post antrean; verdict LOGIN_WALL berarti sesi mati.
 
-```bash
-git clone https://github.com/yxxrn/threads-bot
-cd threads-bot
+## Push ke GitHub (belum dilakukan, butuh repo + deploy key)
+1. Buat repo privat kosong di GitHub.
+2. Tambahkan public key ~/.ssh/id_github_bots.pub sebagai Deploy key (write access).
+3. git remote add origin <url> && git push -u origin main
 
-# Pilih salah satu (atau dua-duanya):
+## Insiden 2026-11-03 + guard identitas akun
 
-# A. Autopost (posting ke akun sendiri)
-cd autopost
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-# login → lihat autopost/README (bagian Session)
-.venv/bin/python post.py "hello world"
-
-# B. Reply bot (balas postingan orang)
-cd ../reply-bot
-python3 -m venv venv && ./venv/bin/pip install cloakbrowser==0.5.11 playwright==1.63.0
-# login → lihat reply-bot/README (bagian Setup)
-```
-
-> **Penting:** jangan pernah commit file `storage_state*.json`, `state.json`,
-> `cookies*.txt`, atau file `.env`. Semua itu berisi session hidup akun.
-> Setiap folder punya `.gitignore` sendiri — jangan diubah.
-
-## Dokumentasi
-
-| Dokumen | Isi |
-|---|---|
-| [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) | Arsitektur kedua sistem, alur data, file-file state, cara kerja tiap komponen |
-| [`docs/SETUP.md`](docs/SETUP.md) | Setup dari nol di mesin baru: dependensi, login, konfigurasi |
-| [`docs/SCHEDULING.md`](docs/SCHEDULING.md) | Cara menjadwalkan: crontab murni, systemd timer, atau Hermes cron (lengkap dengan perintah) |
-| [`docs/TROUBLESHOOTING.md`](docs/TROUBLESHOOTING.md) | Masalah umum + solusinya (session mati, selector berubah, dsb) |
-| [`docs/PORTING.md`](docs/PORTING.md) | Pindah ke agent/mesin lain tanpa masalah (checklist portabilitas) |
-| [`autopost/README.md`](autopost/README.md) | Detail script autopost + gotcha chain/media |
-| [`reply-bot/README.md`](reply-bot/README.md) | Detail bot reply + pipeline refill |
-| [`api-experiment/README.md`](api-experiment/README.md) | Eksperimen API unofficial tanpa browser: hasil, temuan, cara capture ulang |
-| [`reply-bot/WATCHDOG.md`](reply-bot/WATCHDOG.md) | Playbook watchdog (yang dijalankan agent saat ada alarm) |
-
-## Disclaimer
-
-Otomasi akun pribadi. Patuhi ToS platform yang dipakai (Meta, X, Telegram).
-Pakai atas risiko sendiri — akun bisa kena limit/suspend kalau pola postingnya
-terdeteksi spam. Semua kredensial/session adalah tanggung jawab pemilik.
+Pada 2 Nov 2026, transplantasi cookies blooply ikut tersalin ke state.json
+panah (mtime identik, ds_user_id identik). Akibatnya 206 post affiliate
+panah (2 Nov 19:30 WIB s.d. 3 Nov 09:12 WIB) terbit sebagai @blooplyy_.
+Perbaikan 3 Nov 2026 (commit ini):
+- `account_guard.py` + `verify_account.py` di tiap instance: sebelum posting
+  apa pun, daemon WAJIB membuktikan sesi yang login == handle di `account.json`
+  (baca tautan profil di navigasi home). Gagal = daemon keluar, tidak posting.
+- `account.json` (handle yang ditugaskan) + `session_meta.json` (metadata sesi,
+  tanpa secret) di tiap instance.
+- Daemon menolak jalan bila file `STOPPED` ada (stop disengaja yang ditaati
+  watchdog; menghapus STOPPED hanya atas perintah eksplisit pemilik).
+- Prompt + playbook watchdog (WATCHDOG.md) diperbarui: file STOPPED berarti
+  daemon yang tidak jalan BUKAN masalah dan JANGAN di-restart.
+- Aturan sesi: JANGAN PERNAH menyalin state.json antar instance. Sesi tiap
+  akun hanya berasal dari cookies akun itu sendiri; setiap pemasangan sesi
+  wajib membackup state.json lama dan lolos `verify_account.py`.
+- Status 3 Nov 2026: blooply jalan lagi (guard lolos); panah STOPPED (sesi
+  asli tertimpa, menunggu cookies segar akun panah); clove STOPPED (akun
+  tersuspend 1 Nov 2026).

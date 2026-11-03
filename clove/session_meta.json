@@ -1,0 +1,7 @@
+{
+  "handle": "clovebliz",
+  "installed_at": "2026-10-30 (dari mtime state.json)",
+  "source": "sesi akun sendiri, terverifikasi BEDA dari blooply 3 Nov 2026",
+  "note": "akun tersuspend 1 Nov 2026; daemon tetap berhenti sampai ada akun pengganti",
+  "guard": "account_guard.py + verify_account.py (2026-11-03)"
+}

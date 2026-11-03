@@ -1,5 +1,9 @@
 # Watchdog threads-bot-clove (affiliate reply, POSTER HELD)
 
+## ATURAN STOP SENGAJA (2026-11-03)
+
+Bila file STOPPED ada di folder instance ini, daemon poster yang TIDAK jalan adalah kondisi yang disengaja, BUKAN masalah: JANGAN restart, catat saja, laporkan 'intentionally stopped'. File STOPPED hanya boleh dihapus atas perintah eksplisit pemilik, atau saat sesi baru akun ini dipasang dan guard identitas (account_guard.py) lolos.
+
 Instance: /home/agentuser/threads-bot-clove
 Akun: @clove (lihat check_login.py untuk handle terverifikasi)
 Refill job: 471587d5057e (PAUSED selama held)

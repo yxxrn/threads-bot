@@ -1,5 +1,9 @@
 # Watchdog Playbook — Threads Bot
 
+## ATURAN STOP SENGAJA (2026-11-03)
+
+Bila file STOPPED ada di folder instance ini, daemon poster yang TIDAK jalan adalah kondisi yang disengaja, BUKAN masalah: JANGAN restart, catat saja, laporkan 'intentionally stopped'. File STOPPED hanya boleh dihapus atas perintah eksplisit pemilik, atau saat sesi baru akun ini dipasang dan guard identitas (account_guard.py) lolos.
+
 Kamu adalah watchdog Threads bot (cron/penjadwal). Monitor script
 (`threads_monitor_all.py`) mendeteksi perubahan status. Tindak lanjuti
 sesuai diff monitor.
