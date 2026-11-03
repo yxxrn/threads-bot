@@ -38,7 +38,10 @@ Yang dibuat factory (semua di mesin vm-11, user `agentuser`):
 
 1. Pasang sesi dari cookies akun itu sendiri ke `state.json` instance
    (backup dulu bila ada). JANGAN PERNAH menyalin `state.json` dari
-   instance lain.
+   instance lain. Di langkah yang sama, refresh `session.json` instance:
+   `started_at` = waktu pemasangan (ISO UTC), `duration_hours` = null
+   (factory menulis placeholder saat scaffold; tanpa refresh, umur sesi
+   yang tercatat adalah umur scaffold, bukan umur sesi).
 2. `venv/bin/python verify_account.py` harus mencetak MATCH.
 3. Hapus `STOPPED` hanya atas perintah eksplisit pemilik.
 4. Aktifkan 3 job, start daemon (perintah lengkap ada di `SETUP.md`

@@ -198,6 +198,17 @@ def main() -> None:
         "verify_account.py mencetak MATCH, atas perintah eksplisit pemilik.\n")
     for name in ("comments.json", "comments_new.json", "replied_urls.json"):
         (target / name).write_text("[]\n")
+    # session.json placeholder: daemon membaca started_at + duration_hours
+    # SEBELUM cek STOPPED; tanpa file ini daemon berhenti di SESSION_MISSING
+    # dan penolakan STOPPED tidak pernah tercapai. started_at placeholder ini
+    # WAJIB di-refresh ke waktu pemasangan saat cookies akun dipasang
+    # (lihat SETUP.md langkah 1); duration null = sesi unlimited.
+    (target / "session.json").write_text(json.dumps({
+        "started_at": datetime.now(timezone.utc).isoformat(),
+        "duration_hours": None,
+        "note": "placeholder factory (belum ada sesi); refresh started_at ke waktu "
+                "pemasangan saat cookies akun ini dipasang",
+    }, indent=2, ensure_ascii=False) + "\n")
     unit = f"threads-poster-daemon-{slug}"
     new_job_names = (f"{slug}-scraper", f"{slug}-auto-cycle", f"{slug}-watchdog")
     new_script_names = (f"{slug}-scraper.sh", f"{slug}-monitor.sh")
@@ -235,6 +246,8 @@ def main() -> None:
         f"1. SESI (wajib dari akun ini sendiri): minta cookies segar akun @{slug}\n"
         f"   (format Netscape dari Cookie-Editor), konversi ke Playwright\n"
         f"   storage_state, tulis ke {target}/state.json (backup dulu bila ada).\n"
+        f"   Di langkah yang sama, refresh {target}/session.json: started_at =\n"
+        f"   waktu pemasangan (ISO UTC), duration_hours = null (unlimited).\n"
         f"   JANGAN PERNAH menyalin state.json dari instance lain.\n"
         f"2. VERIFIKASI: `{venv_path}/bin/python {target}/verify_account.py`\n"
         f"   harus mencetak MATCH. Bila MISMATCH/UNDETERMINED: berhenti, jangan\n"
