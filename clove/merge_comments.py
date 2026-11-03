@@ -72,6 +72,37 @@ def is_generic_reaction(text):
     return False
 
 
+
+# TITLE-PASTE BAN (2026-11-03, Amad: jangan tempel judul katalog utuh).
+# KEEP IN SYNC: merge_comments.py in BOTH instances. Sebuah draf ditolak bila
+# teksnya mengandung 40 karakter berurutan dari NAMA KATALOG mana pun (judul
+# utuh/terpotong). Nama pendek (< 40 karakter) tidak pernah kena filter ini.
+def _norm_ws(s):
+    return re.sub(r"\s+", " ", (s or "").lower()).strip()
+
+def _catalog_names():
+    try:
+        d = load(BOT / "catalog" / "catalog.json", {})
+        items = d if isinstance(d, list) else d.get("offers", d.get("items", []))
+        return [o.get("name", "") for o in items if o.get("name")]
+    except Exception:
+        return []
+
+CATALOG_NAMES = _catalog_names()
+
+def title_paste(text):
+    t = _norm_ws(text)
+    if len(t) < 40:
+        return False
+    for name in CATALOG_NAMES:
+        n = _norm_ws(name)
+        if len(n) < 40:
+            continue
+        for i in range(len(n) - 39):
+            if n[i:i + 40] in t:
+                return True
+    return False
+
 def normalize(c, replied):
     """Return (item, main_fresh, extra_fresh) with stale parts blanked."""
     url = c.get("url", "")
@@ -90,6 +121,14 @@ def normalize(c, replied):
         main_fresh = False
     if extra_fresh and is_generic_reaction(item.get("extra_comment", "")):
         print(f"DROP_GENERIC extra: {url}")
+        item["extra_comment"] = ""
+        extra_fresh = False
+    if main_fresh and title_paste(item.get("comment", "")):
+        print(f"DROP_TITLE_PASTE main: {url}")
+        item["comment"] = ""
+        main_fresh = False
+    if extra_fresh and title_paste(item.get("extra_comment", "")):
+        print(f"DROP_TITLE_PASTE extra: {url}")
         item["extra_comment"] = ""
         extra_fresh = False
     item.pop("target", None)
