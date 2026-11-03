@@ -124,9 +124,10 @@ def main() -> None:
         else:
             print(f"remove_bot: script tidak ada (lewati): {p}")
 
-    # 4. Arsipkan folder (bukan hapus).
+    # 4. Arsipkan folder (bukan hapus). Detik dipakai supaya dua pelepasan
+    # dalam menit yang sama tidak bertabrakan nama arsipnya.
     ARCHIVE_ROOT.mkdir(exist_ok=True)
-    dest = ARCHIVE_ROOT / f"{slug}-{datetime.now().strftime('%Y%m%d-%H%M')}"
+    dest = ARCHIVE_ROOT / f"{slug}-{datetime.now().strftime('%Y%m%d-%H%M%S')}"
     if dest.exists():
         fail(f"tujuan arsip sudah ada: {dest}")
     shutil.move(str(target), str(dest))
