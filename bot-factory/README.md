@@ -38,7 +38,13 @@ Yang dibuat factory (semua di mesin vm-11, user `agentuser`):
 
 1. Pasang sesi dari cookies akun itu sendiri ke `state.json` instance
    (backup dulu bila ada). JANGAN PERNAH menyalin `state.json` dari
-   instance lain. Di langkah yang sama, refresh `session.json` instance:
+   instance lain. Alternatif bila cookies tidak bisa didapat: login manual
+   dengan username + password akun itu (password ditanya saat runtime,
+   tidak pernah disimpan): `./venv/bin/python manual_login.py` atau
+   `./reactivate-blooply.sh --login` (khusus instance blooply, sekaligus
+   menghidupkan daemon + promo). Bila muncul tantangan verifikasi/2FA,
+   skrip berhenti dan tantangan itu wajib diselesaikan pemilik sendiri.
+   Di langkah yang sama, refresh `session.json` instance:
    `started_at` = waktu pemasangan (ISO UTC), `duration_hours` = null
    (factory menulis placeholder saat scaffold; tanpa refresh, umur sesi
    yang tercatat adalah umur scaffold, bukan umur sesi).

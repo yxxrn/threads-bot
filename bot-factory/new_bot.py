@@ -69,6 +69,7 @@ SRC_FILES = [
     "account_guard.py", "verify_account.py", "queue_status.py",
     "build_pool.py", "scraper_cycle.py", "check_login.py",
     "check_reply_session.py", "threads_monitor_all.py",
+    "manual_login.py",
 ]
 MODE_FILES = {
     "affiliate": [

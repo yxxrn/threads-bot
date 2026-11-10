@@ -91,7 +91,10 @@ instance (bukan menghapus permanen).
 - `state.json`, `storage_state*.json`, `cookies*.txt`, `session.json`:
   sesi login (rahasia dan kedaluwarsa). Sesi dipulihkan lewat prosedur
   refresh (cookies segar akun itu -> `verify_account.py` MATCH), bukan
-  lewat git.
+  lewat git. Alternatif bila cookies tidak bisa didapat: login manual
+  dengan username + password (`src/manual_login.py`, password ditanya saat
+  runtime dan tidak pernah disimpan; bila muncul tantangan verifikasi/2FA,
+  skrip berhenti dan pemilik yang menyelesaikan tantangannya).
 - Antrean, log, histori post, screenshot debug, gambar katalog: data
   runtime, bukan kode. Gambar katalog bisa diregenerasi dari file
   affiliate links; `modes/affiliate/catalog.json` (daftar offer) ikut

@@ -2,6 +2,7 @@
 storage_state*.json
 state.json
 cookies*.txt
+manual_login_tmp.json
 .env
 *.session
 
