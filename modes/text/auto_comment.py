@@ -16,6 +16,7 @@ the page (self-heals false-negative verifications from previous runs).
 from __future__ import annotations
 
 import json
+import re
 import random
 import sys
 import time
@@ -109,6 +110,19 @@ def detect_lang(text: str) -> str:
     return "id" if score >= 2 else "en"
 
 
+# URL GUARD 2026-11-13: satu URL post Threads malformed di antrean mematikan
+# daemon Blooply (13 Nov ~05:47 WIB: `threads.com/._antoncherkasov/...` —
+# titik, bukan @). URL post Threads yang valid bentuknya persis
+# https://www.threads.com/@<handle>/post/<id> — handle diawali @. Apapun yang
+# tidak cocok ditolak sebelum mencapai browser: tidak pernah di-posting,
+# tidak pernah di-retry, tidak pernah fatal.
+THREAD_URL_RE = re.compile(r"^https://www\.threads\.com/@[A-Za-z0-9_][A-Za-z0-9._]*/post/[A-Za-z0-9_-]+/?$")
+
+
+def is_valid_thread_url(url) -> bool:
+    return isinstance(url, str) and bool(THREAD_URL_RE.match(url))
+
+
 def build_queue():
     replied = set(load_json(REPLIED_FILE, []))
     retry = [r for r in load_json(RETRY_FILE, []) if r.get("url")]
@@ -116,6 +130,8 @@ def build_queue():
     for r in retry:
         if r["url"] in seen:
             continue
+        if not is_valid_thread_url(r.get("url")):
+            continue  # URL GUARD 2026-11-13: malformed URL never enters the queue
         # Any url present in retry_queue blocks the comments.json path below
         # (dead/exhausted included) — otherwise the draft gets re-added with
         # fails reset to 0 and retried forever (retry-loop bug 2026-09-29).
@@ -129,6 +145,8 @@ def build_queue():
     for c in load_json(COMMENTS_FILE, []):
         if not c.get("url") or not c.get("comment") or c["url"] in seen:
             continue
+        if not is_valid_thread_url(c.get("url")):
+            continue  # URL GUARD 2026-11-13: malformed URL never enters the queue
         # Skip URLs already successfully replied to (they stay in comments.json
         # as a draft archive; without this the queue would pick them forever).
         if c["url"] in replied:

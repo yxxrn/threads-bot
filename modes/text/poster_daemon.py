@@ -136,6 +136,20 @@ def main() -> int:
                 continue
 
             item = queue[0]
+            if not ac.is_valid_thread_url(item.get("url")):
+                # URL GUARD 2026-11-13: malformed URL must never reach the
+                # browser. Tombstone it so it can never re-enter the queue,
+                # then move on to the next item (daemon keeps running).
+                bad = item.get("url") or ""
+                log(f"SKIP malformed URL (tombstoned, never retried): {bad!r}")
+                retry_state[bad] = {
+                    "url": bad, "author": item.get("author", ""),
+                    "comment": item.get("comment", ""), "lang": item.get("lang", ""),
+                    "fails": 99, "dead": True, "skip_reason": "malformed_url",
+                }
+                ac.save_json(ac.RETRY_FILE, list(retry_state.values()))
+                time.sleep(5)
+                continue
             log(f"posting @{item.get('author')} [{item.get('lang')}] {item['url']}")
             try:
                 rec = ac.post_reply(ctx, page, item["url"], item["comment"], posted)
