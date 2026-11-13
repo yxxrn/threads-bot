@@ -20,7 +20,7 @@ from pathlib import Path
 BOT = Path(__file__).resolve().parent
 
 STRONG_RE = re.compile(
-    r"\b(cpns|pns|pppk|p3k|skd|skb|twk|tiu|tkp|casn|asn|tryout|try\s?out)\b",
+    r"\b(cpns|pns|pppk|p3k|skd|skb|twk|tiu|tkp|casn|asn|tryout|try\s?out|bkn|nip)\b",
     re.I,
 )
 

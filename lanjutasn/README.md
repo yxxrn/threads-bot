@@ -28,8 +28,8 @@ Indonesia, softsell "kalau mau TO gratis bisa cek profil".
 | File | Fungsi |
 |---|---|
 | `lanjutasn_identity.py` | Aturan identitas + softsell rotasi + validator draf |
-| `keywords.json` | 5 grup keyword pencarian (rotasi per siklus) |
-| `find_posts.py` | Scraper pencarian Threads (ID + keyword ASN, max 24 jam) |
+| `keywords.json` | 11 grup keyword pencarian (rotasi per siklus) |
+| `find_posts.py` | Scraper pencarian Threads (ID + keyword ASN, max 48 jam) |
 | `scraper_cycle.py` | Siklus scrape per grup keyword (rotasi, lock, log) |
 | `build_pool.py` | Pool dari arsip found_posts (ID-only, dedupe) |
 | `pick_drafts.py` | Pilih 12 kandidat (filter author 24 jam + skip patterns) |

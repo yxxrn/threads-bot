@@ -8,7 +8,7 @@ ke found_posts_auto_<TS>_a.json / _b.json (file-file inilah bahan
 build_pool.py).
 
 Dipanggil oleh cron/scheduler tiap 30 menit (Hermes lanjut asn-scraper,
-nanti). Mode tes: --groups 1 --limit 5 --max-age-hours 24
+nanti). Mode tes: --groups 1 --limit 5 --max-age-hours 48
 """
 from __future__ import annotations
 
@@ -59,8 +59,8 @@ def main() -> int:
                     help="jumlah grup keyword per siklus (default 2)")
     ap.add_argument("--limit", type=int, default=20,
                     help="max post per grup (default 20)")
-    ap.add_argument("--max-age-hours", type=float, default=24,
-                    help="umur maksimum post (default 24 jam)")
+    ap.add_argument("--max-age-hours", type=float, default=48,
+                    help="umur maksimum post (default 48 jam)")
     a = ap.parse_args()
 
     # Scraper tidak butuh proxy 9router (pola Blooply 2026-11-08: proxy env

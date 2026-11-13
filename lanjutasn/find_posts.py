@@ -8,7 +8,7 @@ Replika find_posts.py Blooply untuk @lanjutasn_id. Perbedaan:
 - Kata kunci default: CPNS.
 
 Usage:
-  ./venv/bin/python find_posts.py --keywords "CPNS,soal CPNS" --max-age-hours 24 --limit 10
+  ./venv/bin/python find_posts.py --keywords "CPNS,soal CPNS" --max-age-hours 48 --limit 10
   ./venv/bin/python find_posts.py --keywords "CPNS" --json   # machine output
 
 Output: JSON array of {url, author, text, age_hours, posted_at, likes, replies}
@@ -159,7 +159,7 @@ def main() -> int:
         default="CPNS,soal CPNS,tryout CPNS,lolos CPNS",
         help="comma-separated search keywords",
     )
-    ap.add_argument("--max-age-hours", type=float, default=24)
+    ap.add_argument("--max-age-hours", type=float, default=48)
     ap.add_argument("--limit", type=int, default=10)
     a = ap.parse_args()
 
