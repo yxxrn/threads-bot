@@ -8,8 +8,21 @@
 #       verifikasi/2FA, skrip berhenti; pemilik yang menyelesaikan tantangannya.
 #   ./reactivate-blooply.sh --login --request-code
 #       seperti --login, tapi bila tantangan muncul, klik tombol "get a code"
-#       sekali lalu berhenti (sesi TIDAK disimpan). Dipakai sekali saja atas
-#       perintah pemilik; cron pengawas sesi TIDAK memakai flag ini.
+#       BERULANG sampai timer cooldown pengiriman ulang muncul (bukti kode
+#       benar-benar terkirim; aturan Amad 16 Nov 22:15 WIB), lalu berhenti
+#       (sesi TIDAK disimpan). Dipakai sekali saja atas perintah pemilik;
+#       cron pengawas sesi TIDAK memakai flag ini.
+#   ./reactivate-blooply.sh --login --request-code-wait
+#       SATU SESI penuh tanpa reload (aturan Amad 16 Nov 22:30 WIB):
+#       login -> tantangan muncul -> pencet "get a code" 1x -> TUNGGU 6
+#       digit dari stdin (browser tetap terbuka, maks 15 menit) ->
+#       masukkan kode di sesi yang sama -> hidupkan daemon + promo.
+#       Selama menunggu, stdin juga menerima perintah 'press' (pencet
+#       "get a code" lagi 1x di sesi yang sama, TANPA login ulang) dan
+#       'batal' (berhenti). Aturan Amad 16 Nov 22:46 WIB: minta kode
+#       lagi cukup SATU pencet (pencet berulang mengirim banyak kode).
+#       Dipakai atas perintah pemilik; cron TIDAK memakai flag ini
+#       (cron tidak bisa menunggu kode).
 #   echo 123456 | ./reactivate-blooply.sh --login --code-stdin
 #       seperti --login, tapi kode verifikasi 6 digit dibaca dari stdin dan
 #       dimasukkan ke form tantangan bila muncul. Kode tidak pernah dicetak.
